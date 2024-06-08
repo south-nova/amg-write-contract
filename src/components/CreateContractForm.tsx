@@ -1,7 +1,7 @@
 import React from 'react';
 
+import DatePickerWithRange from '@/components/DatePickerWithRange';
 import InputField from '@/components/InputField';
-import { DatePickerWithRange } from '@/components/ui/DatePickerWithRange';
 import RadioGroup from '@/components/ui/RadioGroup';
 
 interface CreateContractFormProps {}
@@ -22,6 +22,7 @@ const CreateContractForm = ({}: CreateContractFormProps) => {
         <InputField name="pay" label="용역 수수료 (일급)" />
         <InputField className="max-w-32" name="pay-date" label="급여 지급일" />
       </div>
+
       <DatePickerWithRange />
     </div>
   );

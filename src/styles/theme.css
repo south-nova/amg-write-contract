@@ -4,15 +4,15 @@
   --foreground: #374151;
   --foreground-muted: #484848b9;
 
-  --surface: #21262c;
+  --surface: #f9f9fb;
   --surface-accent: #293038;
 
   --border: #eff0f3;
   --border-accent: #cdced7;
 
   --primary: #426cff;
-  --primary-accent: #577cff;
-  --primary-surface: #8152fe37;
+  --primary-accent: #365df1;
+  --primary-surface: #f6f9ff;
   --primary-foreground: #fff;
 
   --card: #fff;
