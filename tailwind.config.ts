@@ -1,3 +1,4 @@
+import scrollHide from 'tailwind-scrollbar-hide';
 import { Config } from 'tailwindcss';
 import tailwindAnimate from 'tailwindcss-animate';
 
@@ -46,10 +47,6 @@ const config: Config = {
         DEFAULT: 'var(--card)',
         foreground: 'var(--card-foreground)',
       },
-      region: {
-        surface: 'var(--region-surface)',
-        bar: 'var(--region-bar)',
-      },
     },
     extend: {
       spacing: {
@@ -77,6 +74,6 @@ const config: Config = {
       },
     },
   },
-  plugins: [tailwindAnimate],
+  plugins: [tailwindAnimate, scrollHide],
 };
 export default config;

@@ -83,17 +83,18 @@ const CalendarRange = ({ value, onDateChange }: CalendarRangeProps) => {
                 className={cn(
                   'cursor-pointer rounded-md p-2 text-center transition-colors duration-150',
                   !isSameMonth(day, month) ? 'text-foreground-muted' : 'text-foreground',
-                  isInRange && 'rounded-none bg-primary-surface text-primary',
+                  isInRange && 'rounded-none bg-surface-accent text-secondary',
                   isSelectedStart && 'rounded-l-md',
                   isSelectedEnd && 'rounded-r-md',
-                  (isSelectedStart || isSelectedEnd) && 'bg-primary font-semibold text-primary-foreground',
+                  (isSelectedStart || isSelectedEnd) &&
+                    'bg-secondary font-semibold text-secondary-foreground',
                   isToday && 'font-bold',
                   isPastDate && 'cursor-default text-foreground-muted',
                   !isInRange &&
                     !isSelectedStart &&
                     !isSelectedEnd &&
                     !isPastDate &&
-                    'hover:bg-surface hover:text-primary',
+                    'hover:bg-surface hover:text-secondary',
                 )}
                 onClick={() => handleDateClick(day)}
               >
@@ -122,7 +123,9 @@ const CalendarRange = ({ value, onDateChange }: CalendarRangeProps) => {
           </div>
         ))}
       </div>
-      <div className="h-[500px] overflow-y-scroll py-6">{months.map((month) => renderMonth(month))}</div>
+      <div className="scrollbar-hide h-[500px] overflow-y-scroll py-6">
+        {months.map((month) => renderMonth(month))}
+      </div>
     </div>
   );
 };

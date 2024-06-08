@@ -5,16 +5,19 @@
   --foreground-muted: #484848b9;
 
   --surface: #f9f9fb;
-  --surface-accent: #293038;
+  --surface-accent: #e8e8e8;
 
   --border: #eff0f3;
-  --border-accent: #cdced7;
+  --border-accent: #f0f0f0;
 
   --primary: #426cff;
   --primary-accent: #365df1;
   --primary-surface: #f6f9ff;
   --primary-foreground: #fff;
 
-  --card: #fff;
-  --card-foreground: #1e1f24;
+  --secondary: #333333;
+  --secondary-accent: #121212;
+  --secondary-foreground: #fff;
+
+  --ring: #f6f9ff;
 }

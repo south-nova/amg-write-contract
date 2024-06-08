@@ -1,10 +1,10 @@
 'use client';
 
-import * as React from 'react';
+import { useState } from 'react';
 
 import { CalendarIcon } from '@radix-ui/react-icons';
 import { Cross1Icon } from '@radix-ui/react-icons';
-import { addDays, endOfMonth, format } from 'date-fns';
+import { endOfMonth, format } from 'date-fns';
 
 import { Button } from '@/components/ui/Button';
 import CalendarRange, { DateRange } from '@/components/ui/CalendarRange';
@@ -26,14 +26,21 @@ interface DatePickerProps {
 }
 
 const DatePickerWithRange = ({ className, onDateChange }: DatePickerProps) => {
-  const [dateRange, setDateRange] = React.useState<DateRange | null>({
+  const [dateRange, setDateRange] = useState<DateRange | null>({
     from: new Date(),
     to: endOfMonth(new Date()),
   });
+  const [tempDateRange, setTempDateRange] = useState<DateRange | null>(dateRange);
 
-  const handleDateChange = (range: DateRange) => {
-    setDateRange(range);
-    onDateChange?.(range);
+  const handleTempDateChange = (range: DateRange) => {
+    setTempDateRange(range);
+  };
+
+  const handleApplyDateChange = () => {
+    if (tempDateRange) {
+      setDateRange(tempDateRange);
+      onDateChange?.(tempDateRange);
+    }
   };
 
   return (
@@ -42,13 +49,11 @@ const DatePickerWithRange = ({ className, onDateChange }: DatePickerProps) => {
         <DrawerTrigger asChild>
           <Button
             id="date"
-            variant={'outline'}
-            className={cn(
-              'w-[300px] justify-start text-left font-normal',
-              !dateRange && 'text-muted-foreground',
-            )}
+            variant="outline"
+            size="lg"
+            className={cn('w-full font-normal', !dateRange && 'text-muted-foreground')}
           >
-            <CalendarIcon className="mr-2 h-4 w-4" />
+            <CalendarIcon className="mr-4 h-4 w-4" />
             {dateRange && dateRange.from && dateRange.to
               ? `${format(dateRange.from, 'yy년 M월 d일')} ~ ${format(dateRange.to, 'yy년 M월 d일')}`
               : '날짜를 선택해주세요.'}
@@ -58,18 +63,20 @@ const DatePickerWithRange = ({ className, onDateChange }: DatePickerProps) => {
         <DrawerContent>
           <DrawerHeader>
             <DrawerTitle>계약 기간 선택</DrawerTitle>
-            <DrawerClose asChild className="absolute right-4 top-8">
+            <DrawerClose asChild className="absolute right-4 top-12">
               <IconButton variant="ghost">
                 <Cross1Icon />
               </IconButton>
             </DrawerClose>
           </DrawerHeader>
 
-          <CalendarRange onDateChange={handleDateChange} />
+          <CalendarRange onDateChange={handleTempDateChange} />
 
           <DrawerFooter>
             <DrawerClose>
-              <Button size="lg">날짜 선택</Button>
+              <Button className="w-full" size="lg" onClick={handleApplyDateChange}>
+                날짜 선택하기
+              </Button>
             </DrawerClose>
           </DrawerFooter>
         </DrawerContent>

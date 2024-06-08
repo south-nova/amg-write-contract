@@ -3,6 +3,7 @@ import { ReactNode } from 'react';
 import { Metadata } from 'next';
 import { Noto_Sans_KR } from 'next/font/google';
 
+import { Toaster } from '@/components/ui/Toast/toseter';
 import Content from '@/layouts/Content';
 import Header from '@/layouts/Header';
 import '@/styles/globals.css';
@@ -21,6 +22,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <Header />
           <Content className="flex-grow">{children}</Content>
         </main>
+        <Toaster />
       </body>
     </html>
   );

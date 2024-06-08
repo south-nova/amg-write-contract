@@ -1,23 +1,21 @@
 import React from 'react';
 
-import { Input } from '@/components/ui/Input';
+import { Input, InputProps } from '@/components/ui/Input';
 import { cn } from '@/lib/cn';
 
-interface InputFieldProps {
-  className?: string;
-  name?: string;
+interface InputFieldProps extends InputProps {
   label?: string;
 }
 
-const InputField = ({ className, name, label }: InputFieldProps) => {
+const InputField = ({ className, name, label, ...props }: InputFieldProps) => {
   return (
     <div className={cn('relative mt-3 flex-1', className)}>
       <Input
         id={name}
-        type="text"
         variant="underline"
         placeholder={label}
         className="peer w-full pt-1 placeholder:opacity-0 peer-focus:text-primary motion-reduce:transition-none"
+        {...props}
       />
       <label
         htmlFor={name}
