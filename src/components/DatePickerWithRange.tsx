@@ -22,24 +22,22 @@ import { cn } from '@/lib/cn';
 
 interface DatePickerProps {
   className?: string;
-  onDateChange?: (dateRange: DateRange) => void;
+  onPick?: (dateRange: DateRange) => void;
 }
 
-const DatePickerWithRange = ({ className, onDateChange }: DatePickerProps) => {
+const DatePickerWithRange = ({ className, onPick }: DatePickerProps) => {
   const [dateRange, setDateRange] = useState<DateRange | null>({
     from: new Date(),
     to: endOfMonth(new Date()),
   });
   const [tempDateRange, setTempDateRange] = useState<DateRange | null>(dateRange);
 
-  const handleTempDateChange = (range: DateRange) => {
-    setTempDateRange(range);
-  };
+  const handleTempDateChange = (range: DateRange) => setTempDateRange(range);
 
   const handleApplyDateChange = () => {
     if (tempDateRange) {
       setDateRange(tempDateRange);
-      onDateChange?.(tempDateRange);
+      onPick?.(tempDateRange);
     }
   };
 
@@ -70,7 +68,7 @@ const DatePickerWithRange = ({ className, onDateChange }: DatePickerProps) => {
             </DrawerClose>
           </DrawerHeader>
 
-          <CalendarRange onDateChange={handleTempDateChange} />
+          <CalendarRange onChange={handleTempDateChange} />
 
           <DrawerFooter>
             <DrawerClose>

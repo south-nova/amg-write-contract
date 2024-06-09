@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 
-import { CheckIcon, Cross2Icon } from '@radix-ui/react-icons';
+import { CheckIcon, Cross2Icon, ExclamationTriangleIcon } from '@radix-ui/react-icons';
 import * as ToastPrimitives from '@radix-ui/react-toast';
 import { type VariantProps, cva } from 'class-variance-authority';
 
@@ -32,6 +32,7 @@ const toastVariants = cva(
       variant: {
         default: 'border bg-background text-foreground',
         success: 'bg-[#2FCA80] text-white',
+        error: 'bg-[#f0555a] text-white',
         destructive: 'destructive group border-destructive bg-destructive text-destructive-foreground',
       },
     },
@@ -44,6 +45,7 @@ const toastVariants = cva(
 const variantIcon = {
   default: null,
   success: <CheckIcon className="h-7 w-7 text-[#2FCA80]" />,
+  error: <ExclamationTriangleIcon className="h-7 w-7 text-[#f0555a]" />,
   destructive: null,
 };
 

@@ -11,15 +11,19 @@ interface RadioOption {
 
 interface RadioGroupProps {
   className?: string;
-  defaultValue?: string;
+  value?: string;
   options?: RadioOption[];
+  onChange?: (value: string) => void;
 }
 
-const RadioGroup = ({ className, defaultValue, options }: RadioGroupProps) => {
-  const defaultSelected = defaultValue || options?.[0].value || '';
+const RadioGroup = ({ className, value, options, onChange }: RadioGroupProps) => {
+  const defaultSelected = value || options?.[0].value || '';
   const [selected, setSelected] = useState<string>(defaultSelected);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => setSelected(e.target.value);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSelected(e.target.value);
+    onChange?.(e.target.value);
+  };
 
   return (
     <div className={cn(className, 'inline-flex w-full overflow-hidden rounded-full border')}>

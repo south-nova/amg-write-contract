@@ -10,10 +10,10 @@ datasource db {
 model Contract {
   id          Int     @id @default(autoincrement())
   link        String  @unique
-  payCycle    String
+  companyName String
   startDate   DateTime
   endDate     DateTime
-  companyName String
   pay         Int
-  payDate     DateTime
+  payDate     Int
+  payCycle    String
 }

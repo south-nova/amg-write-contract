@@ -31,12 +31,12 @@ export interface InputProps
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, id, variant, type, onlyNum, format = 'default', value: parentValue, ...props }, ref) => {
-    const [value, setValue] = useState('');
+    const [inputValue, setInputValue] = useState('');
 
     useEffect(() => {
       if (parentValue !== undefined) {
         const formattedValue = formatValue(parentValue.toString());
-        setValue(formattedValue);
+        setInputValue(formattedValue);
       }
     }, [parentValue]);
 
@@ -67,7 +67,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
       const formattedValue = formatValue(event.target.value);
-      setValue(formattedValue);
+      setInputValue(formattedValue);
 
       let newValue = formattedValue;
       if (onlyNum || !['default'].includes(format)) newValue = formattedValue.replace(/\D/g, '');
@@ -86,7 +86,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       <input
         id={id}
         type={type}
-        value={value}
+        value={inputValue}
         className={cn(inputVariants({ variant }), className)}
         onChange={handleChange}
         ref={ref}

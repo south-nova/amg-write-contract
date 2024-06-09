@@ -22,12 +22,12 @@ export interface DateRange {
 
 interface CalendarRangeProps {
   value?: DateRange | null;
-  onDateChange?: (date: DateRange) => void;
+  onChange?: (date: DateRange) => void;
 }
 
 const months = Array.from({ length: 12 }, (_, i) => addMonths(new Date(), i));
 
-const CalendarRange = ({ value, onDateChange }: CalendarRangeProps) => {
+const CalendarRange = ({ value, onChange }: CalendarRangeProps) => {
   const defaultRange = { from: new Date(), to: endOfMonth(new Date()) };
   const [dateRange, setDateRange] = useState<DateRange>(value ?? defaultRange);
 
@@ -36,10 +36,10 @@ const CalendarRange = ({ value, onDateChange }: CalendarRangeProps) => {
   }, [value]);
 
   useEffect(() => {
-    if (onDateChange && dateRange?.from && dateRange?.to) {
-      onDateChange(dateRange);
+    if (onChange && dateRange?.from && dateRange?.to) {
+      onChange(dateRange);
     }
-  }, [onDateChange, dateRange]);
+  }, [onChange, dateRange]);
 
   const handleDateClick = (date: Date) => {
     const today = new Date();
@@ -123,7 +123,7 @@ const CalendarRange = ({ value, onDateChange }: CalendarRangeProps) => {
           </div>
         ))}
       </div>
-      <div className="scrollbar-hide h-[500px] overflow-y-scroll py-6">
+      <div className="h-[500px] overflow-y-scroll py-6 scrollbar-hide">
         {months.map((month) => renderMonth(month))}
       </div>
     </div>
