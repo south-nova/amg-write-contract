@@ -2,13 +2,16 @@
   "name": "amg-contract",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "init-db": "yarn build && node dist/scripts/initDB.js"
   },
   "dependencies": {
+    "@prisma/client": "^5.15.0",
     "@radix-ui/react-icons": "^1.3.0",
     "@radix-ui/react-label": "^2.0.2",
     "@radix-ui/react-popover": "^1.0.7",
@@ -21,7 +24,10 @@
     "react": "^18",
     "react-dom": "^18",
     "recoil": "^0.7.7",
+    "sqlite": "^5.1.1",
+    "sqlite3": "^5.1.7",
     "tailwind-scrollbar-hide": "^1.1.7",
+    "ts-node": "^10.9.2",
     "vaul": "^0.9.1"
   },
   "devDependencies": {
@@ -42,6 +48,7 @@
     "postcss-loader": "^8.1.1",
     "prettier": "^3.2.5",
     "prettier-plugin-tailwindcss": "^0.6.0",
+    "prisma": "^5.15.0",
     "tailwind-merge": "^2.3.0",
     "tailwindcss": "^3.4.1",
     "tailwindcss-animate": "^1.0.7",

@@ -1,0 +1,19 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Contract {
+  id          Int     @id @default(autoincrement())
+  link        String  @unique
+  payCycle    String
+  startDate   DateTime
+  endDate     DateTime
+  companyName String
+  pay         Int
+  payDate     DateTime
+}

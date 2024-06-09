@@ -9,6 +9,14 @@ import RadioGroup from '@/components/ui/RadioGroup';
 import { useToast } from '@/components/ui/Toast/use-toast';
 
 interface CreateContractFormProps {}
+interface Contract {
+  payCycle: string;
+  startDate: string;
+  endDate: string;
+  companyName: string;
+  pay: number;
+  payDate: string;
+}
 
 const CreateContractForm = ({}: CreateContractFormProps) => {
   const { toast } = useToast();
@@ -20,8 +28,10 @@ const CreateContractForm = ({}: CreateContractFormProps) => {
 
   const handleCreateClick = () => {
     toast({
-      duration: 1000000,
-      title: '링크가 클립보드에 복사되었습니다.',
+      duration: 100000,
+      title: '계약서 생성 완료',
+      description: '링크가 클립보드에 복사되었습니다.',
+      variant: 'success',
     });
   };
 

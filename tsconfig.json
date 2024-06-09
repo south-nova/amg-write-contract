@@ -29,6 +29,9 @@
       }
     ]
   },
+  "ts-node": {
+    "transpileOnly": true
+  },
   "include": [
     "src",
     "src/types/**/*.d.ts",
