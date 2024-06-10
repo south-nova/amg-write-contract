@@ -28,7 +28,7 @@ interface CalendarRangeProps {
 const months = Array.from({ length: 12 }, (_, i) => addMonths(new Date(), i));
 
 const CalendarRange = ({ value, onChange }: CalendarRangeProps) => {
-  const defaultRange = { from: new Date(), to: endOfMonth(new Date()) };
+  const defaultRange = { from: null, to: null };
   const [dateRange, setDateRange] = useState<DateRange>(value ?? defaultRange);
 
   useEffect(() => {

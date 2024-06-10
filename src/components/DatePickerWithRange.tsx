@@ -22,20 +22,19 @@ import { cn } from '@/lib/cn';
 
 interface DatePickerProps {
   className?: string;
+  value?: DateRange;
   onPick?: (dateRange: DateRange) => void;
 }
 
-const DatePickerWithRange = ({ className, onPick }: DatePickerProps) => {
-  const [dateRange, setDateRange] = useState<DateRange | null>({
-    from: new Date(),
-    to: endOfMonth(new Date()),
-  });
+const DatePickerWithRange = ({ className, value, onPick }: DatePickerProps) => {
+  const defaultValues = { from: new Date(), to: endOfMonth(new Date()) };
+  const [dateRange, setDateRange] = useState<DateRange>(value || defaultValues);
   const [tempDateRange, setTempDateRange] = useState<DateRange | null>(dateRange);
 
   const handleTempDateChange = (range: DateRange) => setTempDateRange(range);
 
   const handleApplyDateChange = () => {
-    if (tempDateRange) {
+    if (tempDateRange && tempDateRange.from && tempDateRange.to) {
       setDateRange(tempDateRange);
       onPick?.(tempDateRange);
     }

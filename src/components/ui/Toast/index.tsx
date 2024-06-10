@@ -45,7 +45,7 @@ const toastVariants = cva(
 const variantIcon = {
   default: null,
   success: <CheckIcon className="h-7 w-7 text-[#2FCA80]" />,
-  error: <ExclamationTriangleIcon className="h-7 w-7 text-[#f0555a]" />,
+  error: <ExclamationTriangleIcon className="h-4 w-4 text-[#f0555a]" />,
   destructive: null,
 };
 
