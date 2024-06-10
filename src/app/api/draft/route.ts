@@ -5,7 +5,7 @@ import { generateBase62 } from '@/lib/base62';
 const prisma = new PrismaClient();
 
 export async function POST(request: Request) {
-  const { payCycle, startDate, endDate, companyName, pay, payDate } = await request.json();
+  const { companyName, pay, payDate, payCycle, startDate, endDate } = await request.json();
   const link = generateBase62(5);
 
   try {

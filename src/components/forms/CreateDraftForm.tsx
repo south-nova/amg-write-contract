@@ -2,44 +2,39 @@
 
 import React from 'react';
 
-import { Controller, FieldErrors, useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 
 import { endOfMonth } from 'date-fns';
 
 import DatePickerWithRange from '@/components/DatePickerWithRange';
 import InputField from '@/components/InputField';
 import { Button } from '@/components/ui/Button';
-import { DateRange } from '@/components/ui/CalendarRange';
 import RadioGroup from '@/components/ui/RadioGroup';
-import { Draft } from '@/types/draft';
 
-interface DraftFormData {
-  payCycle: string;
-  period: DateRange;
+export interface DraftFormData {
   companyName: string;
+  payCycle: string;
+  period: [Date, Date];
   pay: number;
   payDate: number;
 }
 
 const defaultValues: DraftFormData = {
   payCycle: 'monthly',
-  period: { from: new Date(), to: endOfMonth(new Date()) },
+  period: [new Date(), endOfMonth(new Date())],
   companyName: '',
   pay: 80000,
   payDate: 15,
 };
 
 interface CreateDraftFormProps {
-  onSubmit?: (formData: Draft) => void;
+  onSubmit?: (formData: DraftFormData) => void;
 }
 
 const CreateDraftForm = ({ onSubmit }: CreateDraftFormProps) => {
   const {
-    register,
     handleSubmit,
     control,
-    setValue,
-    getValues,
     formState: { isValid },
   } = useForm<DraftFormData>({ defaultValues });
 
@@ -63,14 +58,11 @@ const CreateDraftForm = ({ onSubmit }: CreateDraftFormProps) => {
         <p className="mb-3 ml-1 text-sm text-foreground-muted">계약 기간</p>
         <Controller
           control={control}
-          name="startDate"
+          name="period"
           render={({ field }) => (
             <DatePickerWithRange
-              onPick={(dateRange: DateRange) => {
-                field.onChange(dateRange.from);
-                setValue('endDate', dateRange.to);
-              }}
-              value={{ from: field.value, to: getValues('endDate') }}
+              onPick={(dateRange) => field.onChange(dateRange)}
+              value={{ startDate: field.value[0], endDate: field.value[1] }}
             />
           )}
         />
@@ -80,7 +72,7 @@ const CreateDraftForm = ({ onSubmit }: CreateDraftFormProps) => {
         control={control}
         name="companyName"
         rules={{ required: '업체명을 입력해주세요.' }}
-        render={({ field }) => <InputField label="업체명" {...register('companyName')} {...field} />}
+        render={({ field }) => <InputField label="업체명" {...field} />}
       />
 
       <div className="flex w-full gap-6">

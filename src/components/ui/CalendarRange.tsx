@@ -15,44 +15,48 @@ import { ko } from 'date-fns/locale';
 
 import { cn } from '@/lib/cn';
 
-export interface DateRange {
-  from: Date | null;
-  to: Date | null;
-}
+export type DateRange = {
+  startDate: Date | null;
+  endDate: Date | null;
+} | null;
 
 interface CalendarRangeProps {
-  value?: DateRange | null;
+  value?: DateRange;
   onChange?: (date: DateRange) => void;
 }
 
 const months = Array.from({ length: 12 }, (_, i) => addMonths(new Date(), i));
 
 const CalendarRange = ({ value, onChange }: CalendarRangeProps) => {
-  const defaultRange = { from: null, to: null };
-  const [dateRange, setDateRange] = useState<DateRange>(value ?? defaultRange);
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
 
   useEffect(() => {
-    if (value) setDateRange(value);
+    if (value) {
+      setStartDate(value.startDate);
+      setEndDate(value.endDate);
+    }
   }, [value]);
 
   useEffect(() => {
-    if (onChange && dateRange?.from && dateRange?.to) {
-      onChange(dateRange);
-    }
-  }, [onChange, dateRange]);
+    if (onChange && startDate && endDate)
+      onChange({
+        startDate,
+        endDate,
+      });
+  }, [onChange, startDate, endDate]);
 
   const handleDateClick = (date: Date) => {
     const today = new Date();
     if (isBefore(date, today.setHours(0, 0, 0, 0))) return;
 
-    if (!dateRange.from || (dateRange.from && dateRange.to)) {
-      // 시작 날짜가 없거나, 시작 날짜와 종료 날짜가 모두 있는 경우
-      setDateRange({ from: date, to: null });
-    } else if (dateRange.from && !dateRange.to && date > dateRange.from) {
-      // 시작 날짜만 있는 경우
-      setDateRange({ from: dateRange.from, to: date });
-    } else {
-      setDateRange({ from: date, to: null });
+    if (!startDate || (startDate && endDate)) {
+      setStartDate(date);
+      setEndDate(null);
+    } else if ((startDate && !endDate) || date > startDate) setEndDate(date);
+    else {
+      setStartDate(date);
+      setEndDate(null);
     }
   };
 
@@ -70,11 +74,11 @@ const CalendarRange = ({ value, onChange }: CalendarRangeProps) => {
 
         <div className="grid grid-cols-7 gap-y-2">
           {days.map((day) => {
-            const { from, to } = dateRange;
             const isToday = isSameDay(day, new Date());
-            const isSelectedStart = from && isSameDay(day, from);
-            const isSelectedEnd = to && isSameDay(day, to);
-            const isInRange = from && to && isWithinInterval(day, { start: from, end: to });
+            const isSelectedStart = startDate && isSameDay(day, startDate);
+            const isSelectedEnd = endDate && isSameDay(day, endDate);
+            const isInRange =
+              startDate && endDate && isWithinInterval(day, { start: startDate, end: endDate });
             const isPastDate = isBefore(day, new Date()) && !isToday;
 
             return (
