@@ -1,9 +1,5 @@
 export type InputFormat = 'default' | 'phone' | 'ssn' | 'money';
 
-export const removeFormatInputValue = (value: string) => {
-  return value.replace(/\D/g, '');
-};
-
 export const formatInputValue = (value: string, format: InputFormat) => {
   switch (format) {
     case 'ssn':

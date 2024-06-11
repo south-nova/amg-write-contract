@@ -5,7 +5,7 @@ import React, { ChangeEvent, useCallback } from 'react';
 import { type VariantProps, cva } from 'class-variance-authority';
 
 import { cn } from '@/lib/cn';
-import { formatInputValue, removeFormatInputValue } from '@/lib/formatInputValue';
+import { type InputFormat, formatInputValue } from '@/lib/formatInputValue';
 
 const inputVariants = cva(
   `h-12 px-2 duration-200 ease-linear transition-colors bg-transparent rounded-md text-foreground outline-none focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50`,
@@ -27,7 +27,7 @@ export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement>,
     VariantProps<typeof inputVariants> {
   onlyNum?: boolean;
-  format?: 'default' | 'phone' | 'ssn' | 'money';
+  format?: InputFormat;
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
@@ -60,6 +60,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         ref={ref}
         className={cn(inputVariants({ variant }), className)}
         onInput={handleInput}
+        data-has-value={!!value}
         {...props}
       />
     );
