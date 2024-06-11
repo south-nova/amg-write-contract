@@ -29,7 +29,7 @@ const initialData: FormData = {
 };
 
 const ContractPage = ({ params }: ContractPageProps) => {
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(2);
   const [formData, setFormData] = useState<FormData>(initialData);
 
   const handleNext = (data: any) => {

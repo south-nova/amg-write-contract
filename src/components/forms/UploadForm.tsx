@@ -1,6 +1,8 @@
+import { useEffect } from 'react';
+
 import { Controller, useForm } from 'react-hook-form';
 
-import InputField from '@/components/InputField';
+import UploadBox from '@/components/UploadBox';
 import { Button } from '@/components/ui/Button';
 
 export interface UploadData {
@@ -23,18 +25,20 @@ const UploadForm = ({ values, onNext, onBack }: UploadFormProps) => {
 
   return (
     <form className="flex flex-col gap-8" onSubmit={handleSubmit(onNext)}>
+      <input type="file" onChange={(v) => console.log(v)} />
+
       <Controller
         control={control}
         name="idCard"
         rules={{ required: true }}
-        render={({ field }) => <InputField label="신분증 사진" {...field} />}
+        render={({ field }) => <UploadBox label="신분증 사진" {...field} />}
       />
 
       <Controller
         control={control}
         name="bankbook"
         rules={{ required: true }}
-        render={({ field }) => <InputField type="tel" format="phone" label="통장 사본" {...field} />}
+        render={({ field }) => <UploadBox label="통장 사본" {...field} />}
       />
 
       <div className="flex gap-4">

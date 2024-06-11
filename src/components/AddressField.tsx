@@ -22,7 +22,7 @@ const AddressField = forwardRef<HTMLInputElement, AddressFieldProps>(({ onChange
   return (
     <Drawer open={open} onOpenChange={setOpen}>
       <DrawerTrigger asChild>
-        <InputField ref={ref} readOnly {...props} />
+        <InputField type="text" ref={ref} readOnly onFocus={() => setOpen(true)} {...props} />
       </DrawerTrigger>
 
       <DrawerContent>

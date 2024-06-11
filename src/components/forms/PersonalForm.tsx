@@ -25,7 +25,7 @@ const PersonalForm = ({ values, onNext }: PersonalFormProps) => {
   } = useForm<PersonalData>({ values });
 
   return (
-    <form className="flex flex-col gap-8" onSubmit={handleSubmit((v) => console.log(v))}>
+    <form className="flex flex-col gap-8" onSubmit={handleSubmit(onNext)}>
       <Controller
         control={control}
         name="name"
