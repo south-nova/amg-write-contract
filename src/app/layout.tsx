@@ -5,6 +5,7 @@ import { Noto_Sans_KR } from 'next/font/google';
 
 import { Toaster } from '@/components/ui/Toast/toseter';
 import Content from '@/layouts/Content';
+import HeadMeta from '@/layouts/Head';
 import Header from '@/layouts/Header';
 import '@/styles/globals.css';
 
@@ -17,6 +18,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
+      <HeadMeta />
       <body className={inter.className}>
         <main id="root" className="flex h-screen w-screen flex-col">
           <Header />

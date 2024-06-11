@@ -18,8 +18,8 @@ const AdminPage = () => {
         companyName: formData.companyName,
         startDate: formData.period[0],
         endDate: formData.period[1],
-        pay: formData.pay,
-        payDate: formData.payDate,
+        pay: parseInt(formData.pay),
+        payDate: parseInt(formData.payDate),
         payCycle: formData.payCycle,
       };
 

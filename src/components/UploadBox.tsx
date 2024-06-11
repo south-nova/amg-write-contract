@@ -16,8 +16,8 @@ const UploadBox = forwardRef<HTMLInputElement, UploadBoxProps>(({ label, onChang
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0];
       setPreview(URL.createObjectURL(file));
-      onChange?.(e);
     }
+    onChange?.(e);
   };
 
   return (
@@ -31,7 +31,7 @@ const UploadBox = forwardRef<HTMLInputElement, UploadBoxProps>(({ label, onChang
         {...props}
       />
 
-      {preview && <Image src={preview} alt="preview" layout="fill" objectFit="cover" />}
+      {preview && <Image src={preview} alt="preview" fill className="object-cover" />}
 
       <div
         className={cn(

@@ -1,11 +1,11 @@
 'use client';
 
-import { ChangeEvent, InputHTMLAttributes, forwardRef, useCallback } from 'react';
+import { ChangeEvent, InputHTMLAttributes, forwardRef, useCallback, useEffect, useState } from 'react';
 
 import { type VariantProps, cva } from 'class-variance-authority';
 
 import { cn } from '@/lib/cn';
-import { type InputFormat, formatInputValue } from '@/lib/formatInputValue';
+import { type InputFormat, formatInputValue, onlyNumber } from '@/lib/formatInputValue';
 
 const inputVariants = cva(
   `h-12 px-2 duration-200 ease-linear transition-colors bg-transparent rounded-md text-foreground outline-none focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50`,
@@ -28,45 +28,69 @@ export interface InputProps
     VariantProps<typeof inputVariants> {
   onlyNum?: boolean;
   format?: InputFormat;
+  onComplete?: () => void;
 }
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ className, variant, onlyNum, value, format = 'default', onChange, ...props }, ref) => {
-    const handleInput = useCallback(
-      (event: ChangeEvent<HTMLInputElement>) => {
-        let inputValue = event.target.value;
-        if (onlyNum || ['phone', 'ssn', 'money'].includes(format)) {
-          inputValue = inputValue.replace(/\D/g, ''); // 숫자만 허용
+  ({ className, variant, onlyNum, value, format = 'default', onChange, onComplete, ...props }, ref) => {
+    const [displayValue, setDisplayValue] = useState<string>(formatInputValue(String(value ?? ''), format));
+
+    useEffect(() => {
+      setDisplayValue(formatInputValue(String(value ?? ''), format));
+    }, [value]);
+
+    // 값 형식화 함수
+    const formatValue = (value: string) => {
+      let formattedValue = value;
+
+      if (onlyNum || format !== 'default') {
+        formattedValue = onlyNumber(formattedValue);
+
+        if (format !== 'default') {
+          formattedValue = formatInputValue(formattedValue, format);
         }
+      }
 
-        const formattedValue = formatInputValue(inputValue, format);
-        event.target.value = formattedValue;
+      return formattedValue;
+    };
 
-        const newEvent: ChangeEvent<HTMLInputElement> = {
+    // 입력 처리 함수
+    const handleChange = useCallback(
+      (event: ChangeEvent<HTMLInputElement>) => {
+        const {
+          target: { value: rawValue },
+        } = event;
+        const formattedValue = formatValue(rawValue);
+
+        setDisplayValue(formattedValue);
+
+        const changeValue = onlyNum || format !== 'default' ? onlyNumber(formattedValue) : formattedValue;
+        const newEvent = {
           ...event,
           target: {
             ...event.target,
-            value: inputValue,
+            value: changeValue,
           },
         };
 
         onChange?.(newEvent);
       },
-      [onChange, format, onlyNum],
+      [onChange],
     );
 
     return (
       <input
         ref={ref}
-        value={value !== undefined ? formatInputValue(String(value), format) : ''}
         className={cn(inputVariants({ variant }), className)}
-        onInput={handleInput}
+        value={displayValue}
+        onChange={handleChange}
         data-has-value={!!value}
         {...props}
       />
     );
   },
 );
+
 Input.displayName = 'Input';
 
 export { Input };

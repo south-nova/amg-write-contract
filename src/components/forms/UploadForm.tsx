@@ -25,8 +25,6 @@ const UploadForm = ({ values, onNext, onBack }: UploadFormProps) => {
 
   return (
     <form className="flex flex-col gap-8" onSubmit={handleSubmit(onNext)}>
-      <input type="file" onChange={(v) => console.log(v)} />
-
       <Controller
         control={control}
         name="idCard"
@@ -41,7 +39,7 @@ const UploadForm = ({ values, onNext, onBack }: UploadFormProps) => {
         render={({ field }) => <UploadBox label="통장 사본" {...field} />}
       />
 
-      <div className="flex gap-4">
+      <div className="mt-8 flex gap-4">
         <Button type="button" size="lg" variant="outline" onClick={onBack}>
           이전
         </Button>

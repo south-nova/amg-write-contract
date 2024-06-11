@@ -13,16 +13,16 @@ export interface DraftFormData {
   companyName: string;
   payCycle: string;
   period: [Date, Date];
-  pay: number;
-  payDate: number;
+  pay: string;
+  payDate: string;
 }
 
 const defaultValues: DraftFormData = {
   payCycle: 'monthly',
   period: [new Date(), endOfMonth(new Date())],
   companyName: '',
-  pay: 80000,
-  payDate: 15,
+  pay: '80000',
+  payDate: '15',
 };
 
 interface CreateDraftFormProps {
