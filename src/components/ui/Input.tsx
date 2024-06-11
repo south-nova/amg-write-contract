@@ -1,6 +1,6 @@
 'use client';
 
-import React, { ChangeEvent, useCallback } from 'react';
+import { ChangeEvent, InputHTMLAttributes, forwardRef, useCallback } from 'react';
 
 import { type VariantProps, cva } from 'class-variance-authority';
 
@@ -24,13 +24,13 @@ const inputVariants = cva(
 );
 
 export interface InputProps
-  extends React.InputHTMLAttributes<HTMLInputElement>,
+  extends InputHTMLAttributes<HTMLInputElement>,
     VariantProps<typeof inputVariants> {
   onlyNum?: boolean;
   format?: InputFormat;
 }
 
-const Input = React.forwardRef<HTMLInputElement, InputProps>(
+const Input = forwardRef<HTMLInputElement, InputProps>(
   ({ className, variant, onlyNum, value, format = 'default', onChange, ...props }, ref) => {
     const handleInput = useCallback(
       (event: ChangeEvent<HTMLInputElement>) => {
@@ -52,12 +52,13 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 
         onChange?.(newEvent);
       },
-      [onChange],
+      [onChange, format, onlyNum],
     );
 
     return (
       <input
         ref={ref}
+        value={value !== undefined ? formatInputValue(String(value), format) : ''}
         className={cn(inputVariants({ variant }), className)}
         onInput={handleInput}
         data-has-value={!!value}

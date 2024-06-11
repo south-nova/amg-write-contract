@@ -1,6 +1,6 @@
 'use client';
 
-import React, { InputHTMLAttributes, useEffect, useState } from 'react';
+import { ChangeEvent, forwardRef, useState } from 'react';
 
 import { cn } from '@/lib/cn';
 
@@ -16,12 +16,12 @@ interface RadioGroupProps {
   onChange?: (value: string) => void;
 }
 
-const RadioGroup = React.forwardRef<HTMLInputElement, RadioGroupProps>(
+const RadioGroup = forwardRef<HTMLInputElement, RadioGroupProps>(
   ({ className, value, options, onChange }, ref) => {
     const defaultSelected = value || options?.[0].value || '';
     const [selected, setSelected] = useState<string>(defaultSelected);
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
       setSelected(e.target.value);
       onChange?.(e.target.value);
     };

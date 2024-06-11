@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import { forwardRef, useState } from 'react';
 
 import { CalendarIcon } from '@radix-ui/react-icons';
 import { Cross1Icon } from '@radix-ui/react-icons';
@@ -26,10 +26,10 @@ interface DatePickerProps {
   onPick?: (dateRange: [Date, Date]) => void;
 }
 
-const DatePickerWithRange = React.forwardRef<HTMLDivElement, DatePickerProps>(
+const DatePickerWithRange = forwardRef<HTMLDivElement, DatePickerProps>(
   ({ className, value, onPick }, ref) => {
-    const [dateRange, setDateRange] = React.useState<DateRange>(value ?? null);
-    const [tempDateRange, setTempDateRange] = React.useState<DateRange>(null);
+    const [dateRange, setDateRange] = useState<DateRange>(value ?? null);
+    const [tempDateRange, setTempDateRange] = useState<DateRange>(null);
 
     const handleTempDateChange = (range: DateRange) => setTempDateRange(range);
 

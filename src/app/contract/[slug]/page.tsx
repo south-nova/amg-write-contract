@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import { useState } from 'react';
 
 import PersonalForm, { PersonalData } from '@/components/forms/PersonalForm';
 import UploadForm, { UploadData } from '@/components/forms/UploadForm';
@@ -29,8 +29,8 @@ const initialData: FormData = {
 };
 
 const ContractPage = ({ params }: ContractPageProps) => {
-  const [step, setStep] = React.useState(1);
-  const [formData, setFormData] = React.useState<FormData>(initialData);
+  const [step, setStep] = useState(1);
+  const [formData, setFormData] = useState<FormData>(initialData);
 
   const handleNext = (data: any) => {
     setFormData((prev) => ({

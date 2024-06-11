@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { ButtonHTMLAttributes, forwardRef } from 'react';
 
 import { ReloadIcon } from '@radix-ui/react-icons';
 import { Slot } from '@radix-ui/react-slot';
@@ -31,13 +31,13 @@ const buttonVariants = cva(
 );
 
 export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+  extends ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
   loading?: boolean;
   asChild?: boolean;
 }
 
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, loading, children, asChild = false, ...props }, ref) => {
     const Comp = asChild ? Slot : 'button';
     return (

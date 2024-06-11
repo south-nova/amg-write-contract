@@ -1,18 +1,19 @@
-import React from 'react';
+import { RefObject, forwardRef } from 'react';
 
 import { Input, InputProps } from '@/components/ui/Input';
 import { cn } from '@/lib/cn';
 
-interface InputFieldProps extends InputProps {
+export interface InputFieldProps extends InputProps {
   label?: string;
+  inputRef?: RefObject<HTMLInputElement>;
 }
 
-const InputField = React.forwardRef<HTMLInputElement, InputFieldProps>(
-  ({ className, name, label, ...props }, ref) => {
+const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
+  ({ className, name, label, inputRef, ...props }, ref) => {
     return (
-      <div className={cn('relative mt-3 flex-1', className)}>
+      <div className={cn('relative mt-3 flex-1', className)} ref={ref}>
         <Input
-          ref={ref}
+          ref={inputRef}
           id={name}
           variant="underline"
           className="peer w-full pt-1 placeholder-transparent transition-colors focus:placeholder-foreground-muted motion-reduce:transition-none"
