@@ -27,6 +27,7 @@ const config: Config = {
       surface: {
         DEFAULT: 'var(--surface)',
         accent: 'var(--surface-accent)',
+        foreground: 'var(--surface-foreground)',
       },
       primary: {
         DEFAULT: 'var(--primary)',

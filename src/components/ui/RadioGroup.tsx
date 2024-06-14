@@ -27,7 +27,7 @@ const RadioGroup = forwardRef<HTMLInputElement, RadioGroupProps>(
     };
 
     return (
-      <div className={cn(className, 'inline-flex w-full overflow-hidden rounded-full border')}>
+      <div className={cn(className, 'inline-flex w-full overflow-hidden rounded-md border')}>
         {options?.map((option) => {
           const isSelected = option.value === selected;
 

@@ -16,18 +16,19 @@ import { ko } from 'date-fns/locale';
 import { cn } from '@/lib/cn';
 
 export type DateRange = {
-  startDate: Date | null;
-  endDate: Date | null;
-} | null;
+  startDate: Date;
+  endDate: Date;
+};
 
 interface CalendarRangeProps {
-  value?: DateRange;
-  onChange?: (date: DateRange) => void;
+  className?: string;
+  value?: DateRange | null;
+  onChange?: (date: DateRange | null) => void;
 }
 
 const months = Array.from({ length: 12 }, (_, i) => addMonths(new Date(), i));
 
-const CalendarRange = ({ value, onChange }: CalendarRangeProps) => {
+const CalendarRange = ({ className, value, onChange }: CalendarRangeProps) => {
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
 
@@ -38,14 +39,6 @@ const CalendarRange = ({ value, onChange }: CalendarRangeProps) => {
     }
   }, [value]);
 
-  useEffect(() => {
-    if (onChange && startDate && endDate)
-      onChange({
-        startDate,
-        endDate,
-      });
-  }, [onChange, startDate, endDate]);
-
   const handleDateClick = (date: Date) => {
     const today = new Date();
     if (isBefore(date, today.setHours(0, 0, 0, 0))) return;
@@ -53,10 +46,10 @@ const CalendarRange = ({ value, onChange }: CalendarRangeProps) => {
     if (!startDate || (startDate && endDate)) {
       setStartDate(date);
       setEndDate(null);
-    } else if ((startDate && !endDate) || date > startDate) setEndDate(date);
-    else {
-      setStartDate(date);
-      setEndDate(null);
+      onChange?.(null);
+    } else if ((startDate && !endDate) || date > startDate) {
+      setEndDate(date);
+      onChange?.({ startDate, endDate: date });
     }
   };
 
@@ -67,7 +60,7 @@ const CalendarRange = ({ value, onChange }: CalendarRangeProps) => {
     });
 
     return (
-      <div key={month.toISOString()} className="mb-8">
+      <div key={month.toISOString()} className={cn('mb-8', className)}>
         <h3 className="mb-4 text-center text-lg font-semibold">
           {format(month, 'yyyy년 MMMM', { locale: ko })}
         </h3>
@@ -112,7 +105,7 @@ const CalendarRange = ({ value, onChange }: CalendarRangeProps) => {
   };
 
   return (
-    <div className="bg-background px-7 py-4">
+    <div className="bg-background px-5 py-4">
       <div className="grid grid-cols-7 gap-2 border-b border-border pb-3 text-center">
         {['일', '월', '화', '수', '목', '금', '토'].map((day) => (
           <div
@@ -127,7 +120,7 @@ const CalendarRange = ({ value, onChange }: CalendarRangeProps) => {
           </div>
         ))}
       </div>
-      <div className="h-[500px] overflow-y-scroll py-6 scrollbar-hide">
+      <div className="max-h-[400px] overflow-y-scroll py-6 scrollbar-hide">
         {months.map((month) => renderMonth(month))}
       </div>
     </div>

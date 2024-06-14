@@ -29,12 +29,12 @@ const AddressField = forwardRef<HTMLInputElement, AddressFieldProps>(
           <InputField type="text" ref={ref} readOnly onFocus={() => setOpen(true)} {...props} />
         </DrawerTrigger>
 
-        <DrawerContent>
+        <DrawerContent className="h-[90%]">
           <DrawerHeader>
             <DrawerTitle>주소 선택</DrawerTitle>
           </DrawerHeader>
 
-          <DaumPostcode className="min-h-[600px]" animation onComplete={handleComplete} />
+          <DaumPostcode style={{ flex: 1 }} animation onComplete={handleComplete} />
         </DrawerContent>
       </Drawer>
     );

@@ -1,9 +1,8 @@
 'use client';
 
-import { forwardRef, useState } from 'react';
+import { forwardRef, useEffect, useState } from 'react';
 
-import { CalendarIcon } from '@radix-ui/react-icons';
-import { Cross1Icon } from '@radix-ui/react-icons';
+import { CalendarIcon, Cross1Icon } from '@radix-ui/react-icons';
 import { format } from 'date-fns';
 
 import { Button } from '@/components/ui/Button';
@@ -23,32 +22,39 @@ import { cn } from '@/lib/cn';
 interface DatePickerProps {
   className?: string;
   value?: DateRange;
-  onPick?: (dateRange: [Date, Date]) => void;
+  onPick?: (dateRange: DateRange) => void;
 }
 
 const DatePickerWithRange = forwardRef<HTMLDivElement, DatePickerProps>(
   ({ className, value, onPick }, ref) => {
-    const [dateRange, setDateRange] = useState<DateRange>(value ?? null);
-    const [tempDateRange, setTempDateRange] = useState<DateRange>(null);
+    const [dateRange, setDateRange] = useState<DateRange | null>(null);
+    const [tempDateRange, setTempDateRange] = useState<DateRange | null>(null);
 
-    const handleTempDateChange = (range: DateRange) => setTempDateRange(range);
+    useEffect(() => {
+      if (value) {
+        setDateRange(value);
+        setTempDateRange(value);
+      }
+    }, [value]);
+
+    const handleTempDateChange = (range: DateRange | null) => setTempDateRange(range);
 
     const handleApplyDateChange = () => {
-      if (tempDateRange && tempDateRange.startDate && tempDateRange.endDate) {
+      if (tempDateRange) {
         setDateRange(tempDateRange);
-        onPick?.([tempDateRange.startDate, tempDateRange.endDate]);
+        onPick?.(tempDateRange);
       }
     };
 
     return (
-      <div className={cn('grid gap-2', className)} ref={ref}>
+      <div ref={ref} className={cn('grid gap-2', className)}>
         <Drawer>
           <DrawerTrigger asChild>
             <Button
               id="date"
               variant="outline"
               size="lg"
-              className={cn('w-full font-normal', !dateRange && 'text-muted-foreground')}
+              className={cn('w-full text-sm font-normal', !dateRange && 'text-muted-foreground')}
             >
               <CalendarIcon className="mr-4 h-4 w-4" />
               {dateRange && dateRange.startDate && dateRange.endDate
@@ -58,20 +64,16 @@ const DatePickerWithRange = forwardRef<HTMLDivElement, DatePickerProps>(
           </DrawerTrigger>
 
           <DrawerContent>
-            <DrawerHeader>
-              <DrawerTitle>계약 기간 선택</DrawerTitle>
-              <DrawerClose asChild className="absolute right-4 top-12">
-                <IconButton variant="ghost">
-                  <Cross1Icon />
-                </IconButton>
-              </DrawerClose>
-            </DrawerHeader>
-
-            <CalendarRange value={value} onChange={handleTempDateChange} />
+            <CalendarRange value={dateRange} onChange={handleTempDateChange} />
 
             <DrawerFooter>
-              <DrawerClose>
-                <Button className="w-full" size="lg" onClick={handleApplyDateChange}>
+              <DrawerClose asChild>
+                <Button
+                  disabled={!tempDateRange}
+                  className="w-full"
+                  size="lg"
+                  onClick={handleApplyDateChange}
+                >
                   날짜 선택하기
                 </Button>
               </DrawerClose>
@@ -82,5 +84,4 @@ const DatePickerWithRange = forwardRef<HTMLDivElement, DatePickerProps>(
     );
   },
 );
-
 export default DatePickerWithRange;

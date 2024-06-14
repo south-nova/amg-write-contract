@@ -6,7 +6,8 @@ import { Noto_Sans_KR } from 'next/font/google';
 import { Toaster } from '@/components/ui/Toast/toseter';
 import Content from '@/layouts/Content';
 import HeadMeta from '@/layouts/Head';
-import Header from '@/layouts/Header';
+import RecoilWrapper from '@/layouts/RecoilWrapper';
+import { cn } from '@/lib/cn';
 import '@/styles/globals.css';
 
 const inter = Noto_Sans_KR({ subsets: ['latin'] });
@@ -19,11 +20,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <HeadMeta />
-      <body className={inter.className}>
-        <main id="root" className="flex h-screen w-screen flex-col">
-          <Header />
+      <body id="root" className={cn('flex h-screen flex-col', inter.className)}>
+        <RecoilWrapper>
           <Content className="flex-grow">{children}</Content>
-        </main>
+        </RecoilWrapper>
         <Toaster />
       </body>
     </html>

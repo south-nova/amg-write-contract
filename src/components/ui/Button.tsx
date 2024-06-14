@@ -11,7 +11,8 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: 'bg-primary text-primary-foreground hover:bg-primary-accent',
+        default: 'bg-surface-accent text-surface-foreground',
+        primary: 'bg-primary text-primary-foreground hover:bg-primary-accent',
         outline: 'border bg-transparent hover:border-border-accent',
         ghost: 'hover:bg-surface hover:text-accent-foreground',
         link: 'text-primary underline-offset-4 hover:underline',
@@ -19,7 +20,7 @@ const buttonVariants = cva(
       size: {
         default: 'h-10 px-4 py-2',
         sm: 'h-8 rounded-md px-3 text-xs',
-        lg: 'h-12 rounded-md px-8',
+        lg: 'h-14 rounded-md px-8 text-lg',
         icon: 'h-9 w-9',
       },
     },
@@ -42,7 +43,10 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     const Comp = asChild ? Slot : 'button';
     return (
       <Comp
-        className={cn(buttonVariants({ variant, size, className }))}
+        className={cn(
+          'transition-all duration-150 active:scale-95 active:bg-surface',
+          buttonVariants({ variant, size, className }),
+        )}
         disabled={loading}
         ref={ref}
         {...props}

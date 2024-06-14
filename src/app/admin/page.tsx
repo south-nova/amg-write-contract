@@ -2,7 +2,7 @@
 
 import axios from 'axios';
 
-import CreateContractForm, { DraftFormData } from '@/components/forms/CreateDraftForm';
+import ContractForm, { DraftFormData } from '@/components/forms/DraftForm';
 import { useToast } from '@/components/ui/Toast/use-toast';
 
 const AdminPage = () => {
@@ -16,8 +16,8 @@ const AdminPage = () => {
     try {
       const data = {
         companyName: formData.companyName,
-        startDate: formData.period[0],
-        endDate: formData.period[1],
+        startDate: formData.period.startDate,
+        endDate: formData.period.endDate,
         pay: parseInt(formData.pay),
         payDate: parseInt(formData.payDate),
         payCycle: formData.payCycle,
@@ -55,7 +55,8 @@ const AdminPage = () => {
 
   return (
     <div>
-      <CreateContractForm onSubmit={handleSubmit} />
+      <h1 className="mb-12 mt-8 text-xl font-bold">계약서 생성</h1>
+      <ContractForm onSubmit={handleSubmit} />
     </div>
   );
 };
