@@ -1,4 +1,4 @@
 export interface AttachmentData {
-  idCard: string;
-  bankbook: string;
+  idCard: File | null;
+  bankbook: File | null;
 }

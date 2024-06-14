@@ -138,6 +138,7 @@ const PersonalPage = () => {
             <Button
               className={cn('flex-1', isKeyboardVisible && 'rounded-none')}
               type="button"
+              variant="primary"
               size="lg"
               onClick={handleNextButtonClick}
             >

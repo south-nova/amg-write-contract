@@ -28,36 +28,57 @@ const AttachmentPage = () => {
 
   return (
     <>
-      <h1 className="mb-12 mt-8 text-xl font-bold">사진을 업로드해주세요</h1>
+      <h1 className="mb-2 mt-8 text-xl font-bold">신분증과 통장 사본이 필요해요</h1>
+      <p className="mb-12 text-sm text-foreground-muted">빛이 반사되지 않도록 주의해주세요.</p>
 
-      <form className="flex flex-col gap-4" onSubmit={handleSubmit(handleNextButtonClick)}>
+      <form className="flex flex-col gap-4">
         <Controller
           control={control}
           name="idCard"
           rules={{ required: true }}
-          render={({ field }) => <UploadBox label="신분증 사진" {...field} />}
+          render={({ field: { onChange, value, ref } }) => (
+            <UploadBox
+              label="신분증 사진"
+              value={value}
+              onChange={(e) => onChange(e.target.files?.[0])}
+              ref={ref}
+            />
+          )}
         />
 
         <Controller
           control={control}
           name="bankbook"
           rules={{ required: true }}
-          render={({ field }) => <UploadBox label="통장 사본" {...field} />}
+          render={({ field: { onChange, value, ref } }) => (
+            <UploadBox
+              label="통장 사본"
+              value={value}
+              onChange={(e) => onChange(e.target.files?.[0])}
+              ref={ref}
+            />
+          )}
         />
-
-        {isValid && (
-          <motion.div
-            className="fixed bottom-6 left-6 right-6 flex"
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            transition={{ duration: 0.2 }}
-          >
-            <Button className="flex-1" type="submit" size="lg">
-              다음
-            </Button>
-          </motion.div>
-        )}
       </form>
+
+      {isValid && (
+        <motion.div
+          className="fixed bottom-6 left-6 right-6 flex"
+          initial={{ opacity: 0, height: 0 }}
+          animate={{ opacity: 1, height: 'auto' }}
+          transition={{ duration: 0.2 }}
+        >
+          <Button
+            variant="primary"
+            className="flex-1"
+            type="button"
+            size="lg"
+            onClick={handleSubmit(handleNextButtonClick)}
+          >
+            다음
+          </Button>
+        </motion.div>
+      )}
     </>
   );
 };

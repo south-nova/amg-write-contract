@@ -1,10 +1,13 @@
+import { HTMLAttributes } from 'react';
+
+import { cn } from '@/lib/cn';
 import { type ContractData } from '@/types/contract';
 
-interface ContractInfoProps {
+interface ContractInfoProps extends HTMLAttributes<HTMLUListElement> {
   contract: ContractData;
 }
 
-const ContractInfo = ({ contract }: ContractInfoProps) => {
+const ContractInfo = ({ contract, className, ...props }: ContractInfoProps) => {
   const { companyName, pay, payDate, startDate, endDate, payCycle } = contract;
   const payCycleText = {
     monthly: '월',
@@ -13,7 +16,7 @@ const ContractInfo = ({ contract }: ContractInfoProps) => {
   }[payCycle];
 
   return (
-    <ul className="rounded-md bg-surface p-4 text-sm text-foreground-muted">
+    <ul className={cn('rounded-md bg-surface p-4 text-sm text-foreground-muted', className)} {...props}>
       <li className="flex justify-between py-1">
         소속 업체<span className="font-bold text-primary">{companyName ? companyName : '-'}</span>
       </li>

@@ -2,21 +2,12 @@
 
 import { forwardRef, useEffect, useState } from 'react';
 
-import { CalendarIcon, Cross1Icon } from '@radix-ui/react-icons';
+import { CalendarIcon } from '@radix-ui/react-icons';
 import { format } from 'date-fns';
 
 import { Button } from '@/components/ui/Button';
 import CalendarRange, { DateRange } from '@/components/ui/CalendarRange';
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from '@/components/ui/Drawer';
-import { IconButton } from '@/components/ui/IconButton';
+import { Drawer, DrawerClose, DrawerContent, DrawerFooter, DrawerTrigger } from '@/components/ui/Drawer';
 import { cn } from '@/lib/cn';
 
 interface DatePickerProps {
