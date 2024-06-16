@@ -29,10 +29,14 @@ export interface InputProps
   onlyNum?: boolean;
   comma?: boolean;
   onComplete?: () => void;
+  onEnter?: () => void;
 }
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ className, variant, value, onlyNum, comma, maxLength, onChange, onComplete, ...props }, ref) => {
+  (
+    { className, variant, value, onlyNum, comma, maxLength, onChange, onComplete, onEnter, ...props },
+    ref,
+  ) => {
     const formatCommaValue = useCallback(
       (value: string | number | readonly string[] | undefined) => {
         let formattedValue = String(value);
@@ -69,6 +73,13 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       [onChange, onComplete, onlyNum],
     );
 
+    const handleEnter = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        onEnter?.();
+      }
+    }, []);
+
     return (
       <input
         ref={ref}
@@ -77,6 +88,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         value={formatCommaValue(value)}
         className={cn(inputVariants({ variant }), className)}
         onChange={handleChange}
+        onKeyDown={handleEnter}
         data-has-value={!!value}
         {...props}
       />

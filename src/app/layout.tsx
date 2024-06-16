@@ -4,7 +4,6 @@ import { Metadata } from 'next';
 import { Noto_Sans_KR } from 'next/font/google';
 
 import { Toaster } from '@/components/ui/Toast/toseter';
-import Content from '@/layouts/Content';
 import HeadMeta from '@/layouts/Head';
 import RecoilWrapper from '@/layouts/RecoilWrapper';
 import { cn } from '@/lib/cn';
@@ -21,9 +20,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html lang="en">
       <HeadMeta />
       <body id="root" className={cn('flex h-screen flex-col', inter.className)}>
-        <RecoilWrapper>
-          <Content className="flex-grow">{children}</Content>
-        </RecoilWrapper>
+        <RecoilWrapper>{children}</RecoilWrapper>
         <Toaster />
       </body>
     </html>

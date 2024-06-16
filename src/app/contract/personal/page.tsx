@@ -30,7 +30,13 @@ const personalFormFields = [
     title: '휴대폰번호를 입력해주세요',
     rules: { required: true },
     component: (
-      <InputField label="휴대폰번호" maxLength={11} onlyNum placeholder='"-" 하이픈 제외 숫자만 입력' />
+      <InputField
+        onlyNum
+        label="휴대폰번호"
+        maxLength={11}
+        inputMode="tel"
+        placeholder='"-" 하이픈 제외 숫자만 입력'
+      />
     ),
   },
   {
@@ -52,7 +58,7 @@ const personalFormFields = [
     name: 'bankAccount',
     title: '계좌번호를 입력해주세요',
     rules: { required: true },
-    component: <InputField label="계좌번호" onlyNum />,
+    component: <InputField label="계좌번호" onlyNum inputMode="numeric" />,
   },
 ];
 
@@ -115,6 +121,8 @@ const PersonalPage = () => {
                     render={({ field }) => {
                       return cloneElement(component, {
                         ...field,
+                        enterKeyHint: 'next',
+                        onEnter: handleNextButtonClick,
                         onComplete: handleNextButtonClick,
                         inputRef: (el: HTMLInputElement) => (inputRefs.current[index] = el),
                       });

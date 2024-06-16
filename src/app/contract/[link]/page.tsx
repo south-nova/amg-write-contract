@@ -10,10 +10,9 @@ import { useRecoilState } from 'recoil';
 
 import InfoCard from '@/components/InfoCard';
 import { Button } from '@/components/ui/Button';
+import { PAY_CYCLE_TEXT } from '@/constant/payCycle';
 import { contractState } from '@/stores/contract';
 import { ContractData } from '@/types/contract';
-
-const PAY_CYCLE_TEXT = { monthly: '월', weekly: '주', daily: '일' };
 
 interface ContractPageProps {
   params: { link: string };

@@ -23,8 +23,6 @@ export const sendEmail = async (subject: string, html: string, attachments: Atta
       attachments,
     });
 
-    console.log(process.env.TARGET_EMAIL);
-
     return { message: '이메일 전송 성공' };
   } catch (error) {
     console.error(error);

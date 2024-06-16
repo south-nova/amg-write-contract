@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { PAY_CYCLE_TEXT } from '@/constant/payCycle';
 import { ContractData } from '@/types/contract';
 import { PersonalData } from '@/types/personal';
 
@@ -11,11 +12,6 @@ interface ContractArticleProps {
 const ContractArticle = ({ personal, contract }: ContractArticleProps) => {
   const { name } = personal;
   const { startDate, endDate, payCycle, pay, payDate } = contract;
-  const salaryText = {
-    monthly: '월',
-    weekly: '주',
-    daily: '일',
-  }[payCycle];
 
   return (
     <div className="overflow-y-auto p-6">
@@ -50,19 +46,6 @@ const ContractArticle = ({ personal, contract }: ContractArticleProps) => {
 
       <section className="mb-7">
         <h2 className="mb-2 font-bold">제3조 (계약기간)</h2>
-        <p>
-          甲은 乙에게 甲의{' '}
-          <span className="underline">
-            모델하우스 행사 관련 업무 일체(고객 응대, 사무보조, 용품 전달, 전단지 배포, 운전업무 등 서비스
-            전반)
-          </span>
-          를 위탁하고, 乙은 이를 신의성실의 원칙에 따라 협업의 취지에 벗어나지 않는 범위 내에서 독립적으로
-          수행한다.
-        </p>
-      </section>
-
-      <section className="mb-7">
-        <h2 className="mb-2 font-bold">제4조 (용역 수행 방법 및 편의 제공)</h2>
         <p>
           본 계약은 <span className="text-primary">{startDate}</span>부터{' '}
           <span className="text-primary">{endDate}</span>까지로 한다. 단, 계약기간 만료 전 용역 업무 수행 대상
@@ -105,7 +88,8 @@ const ContractArticle = ({ personal, contract }: ContractArticleProps) => {
         <ul className="flex flex-col gap-3 pl-1">
           <li>
             <span className="mr-2">①</span>
-            용역 수수료는 {salaryText} <span className="text-primary">{pay.toLocaleString()}원</span>
+            용역 수수료는 {PAY_CYCLE_TEXT[payCycle]}{' '}
+            <span className="text-primary">{pay.toLocaleString()}원</span>
             으로 하며, 甲은 당월 1일부터 말일까지 乙의 용역 수행에 따라 계산된 금액을{' '}
             <span className="text-primary">익월 {payDate.toString()}일</span>에 乙 의 금융계좌에 입금한다. 단,
             하루의 업무 범위를 벗어나 추가로 용역을 수행하는 경우 지급되는 수수료는 별도 협의에 의한다.
