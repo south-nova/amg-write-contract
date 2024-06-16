@@ -8,13 +8,13 @@ import { useRecoilState } from 'recoil';
 
 import UploadBox from '@/components/UploadBox';
 import { Button } from '@/components/ui/Button';
-import { AttachmentState } from '@/stores/attachment';
+import { attachmentState } from '@/stores/attachment';
 import { AttachmentData } from '@/types/attachment';
 
 const AttachmentPage = () => {
   const router = useRouter();
 
-  const [attachment, setAttachment] = useRecoilState(AttachmentState);
+  const [attachment, setAttachment] = useRecoilState(attachmentState);
   const {
     control,
     handleSubmit,

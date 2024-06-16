@@ -10,7 +10,7 @@ import { useRecoilState } from 'recoil';
 
 import InfoCard from '@/components/InfoCard';
 import { Button } from '@/components/ui/Button';
-import { ContractState } from '@/stores/contract';
+import { contractState } from '@/stores/contract';
 import { ContractData } from '@/types/contract';
 
 const PAY_CYCLE_TEXT = { monthly: '월', weekly: '주', daily: '일' };
@@ -21,7 +21,7 @@ interface ContractPageProps {
 
 const ContractPage = ({ params }: ContractPageProps) => {
   const { link } = params;
-  const [contract, setContract] = useRecoilState<ContractData>(ContractState);
+  const [contract, setContract] = useRecoilState<ContractData>(contractState);
   const [loading, setLoading] = useState(true);
 
   const router = useRouter();

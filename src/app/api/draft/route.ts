@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 
-import { generateBase62 } from '@/lib/base62';
+import { generateBase62 } from '@/lib/base62generate';
 
 const prisma = new PrismaClient();
 

@@ -13,7 +13,7 @@ import InputField from '@/components/InputField';
 import { Button } from '@/components/ui/Button';
 import { useKeyboardState } from '@/hooks/useKeyboardState';
 import { cn } from '@/lib/cn';
-import { PersonalState } from '@/stores/personal';
+import { personalState } from '@/stores/personal';
 import { PersonalData } from '@/types/personal';
 
 const personalFormFields = [
@@ -62,7 +62,7 @@ const PersonalPage = () => {
 
   const [step, setStep] = useState(0);
   const [title, setTitle] = useState<string>(personalFormFields[step].title);
-  const [personal, setPersonal] = useRecoilState(PersonalState);
+  const [personal, setPersonal] = useRecoilState(personalState);
   const isLastStep = step === personalFormFields.length - 1;
 
   const {

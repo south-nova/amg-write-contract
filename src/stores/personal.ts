@@ -10,7 +10,7 @@ export const initPersonal: PersonalData = {
   bankAccount: '',
 };
 
-export const PersonalState = atom<PersonalData>({
+export const personalState = atom<PersonalData>({
   key: 'personal',
   default: initPersonal,
 });

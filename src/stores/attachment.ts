@@ -7,7 +7,7 @@ export const initAttachment: AttachmentData = {
   bankbook: null,
 };
 
-export const AttachmentState = atom<AttachmentData>({
+export const attachmentState = atom<AttachmentData>({
   key: 'attachment',
   default: initAttachment,
 });

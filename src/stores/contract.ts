@@ -11,7 +11,7 @@ export const initContract: ContractData = {
   endDate: '',
 };
 
-export const ContractState = atom<ContractData>({
+export const contractState = atom<ContractData>({
   key: 'contract',
   default: initContract,
 });

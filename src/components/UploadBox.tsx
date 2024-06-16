@@ -28,6 +28,7 @@ const UploadBox = forwardRef<HTMLInputElement, UploadBoxProps>(
       if (e.target.files && e.target.files.length > 0) {
         const file = e.target.files[0];
         setPreview(URL.createObjectURL(file));
+
         onComplete?.();
         onChange?.(e);
       }
