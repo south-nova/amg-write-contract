@@ -8,7 +8,7 @@ interface ContentProps {
 }
 
 const Content = ({ className, children }: ContentProps) => {
-  return <div className={cn('p-6', className)}>{children}</div>;
+  return <div className={cn('p-5', className)}>{children}</div>;
 };
 
 export default Content;

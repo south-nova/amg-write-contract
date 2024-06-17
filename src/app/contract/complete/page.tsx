@@ -15,9 +15,9 @@ const CompletePage = () => {
     <div className="flex flex-col items-center">
       <div className="relative flex size-64 items-center justify-center overflow-hidden">
         {complete ? (
-          <Lottie className="absolute size-[160px]" animationData={CompleteLottie} play />
+          <Lottie className="absolute size-[160px]" loop={false} animationData={CompleteLottie} play />
         ) : (
-          <Lottie className="absolute size-[320px]" loop animationData={LoadingLottie} play />
+          <Lottie className="absolute size-[320px]" animationData={LoadingLottie} play />
         )}
       </div>
 

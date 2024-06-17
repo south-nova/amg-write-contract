@@ -55,5 +55,6 @@ const RadioGroup = forwardRef<HTMLInputElement, RadioGroupProps>(
     );
   },
 );
+RadioGroup.displayName = 'RadioGroup';
 
 export default RadioGroup;

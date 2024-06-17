@@ -40,5 +40,5 @@ const AddressField = forwardRef<HTMLInputElement, AddressFieldProps>(
     );
   },
 );
-
+AddressField.displayName = 'AddressField';
 export default AddressField;

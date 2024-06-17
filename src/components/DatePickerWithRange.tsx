@@ -75,4 +75,5 @@ const DatePickerWithRange = forwardRef<HTMLDivElement, DatePickerProps>(
     );
   },
 );
+DatePickerWithRange.displayName = 'DatePickerWithRange';
 export default DatePickerWithRange;

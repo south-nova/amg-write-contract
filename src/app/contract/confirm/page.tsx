@@ -12,9 +12,10 @@ import ContractArticle from '@/components/ContractArticle';
 import ContractDocument from '@/components/ContractDocument';
 import DrawerWithButton from '@/components/DrawerWithButton';
 import InfoCard from '@/components/InfoCard';
-import PersonalConsent from '@/components/PersonalConsent';
+import PersonalContent from '@/components/PersonalContent';
 import Signature from '@/components/Signature';
 import { Button } from '@/components/ui/Button';
+import { COMPANY_INFO } from '@/constant/company';
 import { PAY_CYCLE_TEXT } from '@/constant/payCycle';
 import { compressImage } from '@/lib/compressImage';
 import { attachmentState } from '@/stores/attachment';
@@ -25,16 +26,10 @@ import { signatureState } from '@/stores/signature';
 import { ContractData } from '@/types/contract';
 import { PersonalData } from '@/types/personal';
 
-const CompanyInfo = {
-  ceo: '김지호',
-  name: '에이엠지(AMG)',
-  address: '남양주시 미금로57번길 20, 715-2102',
-};
-
 const CompanyInfoItems = [
-  { label: '대표자', value: CompanyInfo.ceo },
-  { label: '상호명', value: CompanyInfo.name },
-  { label: '주　소', value: CompanyInfo.address },
+  { label: '대표자', value: COMPANY_INFO.ceo },
+  { label: '상호명', value: COMPANY_INFO.businessName },
+  { label: '주　소', value: COMPANY_INFO.companyAddress },
 ];
 
 const dataToHTML = (personal: PersonalData, contract: ContractData) => {
@@ -49,7 +44,7 @@ const dataToHTML = (personal: PersonalData, contract: ContractData) => {
         <h3>계약 정보</h3>
         <p>소속 업체: <strong>${contract.companyName}</strong></p>
         <p>급여: <strong>${contract.pay.toLocaleString()}원</strong></p>
-        <p>급여 주기: <strong>${PAY_CYCLE_TEXT[contract.payCycle]}</strong></p>
+        <p>급여 주기: <strong>${PAY_CYCLE_TEXT[contract.payCycle]}급</strong></p>
         <p>급여일: <strong>${contract.payDate}일</strong></p>      
         <p>계약 기간: <strong>${contract.startDate}</strong> ~ <strong>${contract.endDate}</strong></p>      
       `;
@@ -82,22 +77,23 @@ const ConfirmPage = () => {
   const postData = async () => {
     if (!docRef.current || attachment.idCard === null || attachment.bankbook === null) return;
 
-    const canvas = await html2canvas(docRef.current);
-    const dataUrl = canvas.toDataURL('image/png');
-    const response = await fetch(dataUrl);
+    const canvas = await html2canvas(docRef.current, { scale: 1.5 });
+    const imageFile = canvas.toDataURL('image/png');
+
+    const response = await fetch(imageFile);
     const contractBlob = await response.blob();
 
     const formData = new FormData();
-    const subject = `${personal.name}/${personal.phone}`;
+    const subject = `[${contract.companyName}] ${personal.name}`;
     const content = dataToHTML(personal, contract);
     const idCard = await compressImage(attachment.idCard);
     const bankbook = await compressImage(attachment.bankbook);
 
     formData.append('subject', subject);
     formData.append('contentHTML', content);
-    formData.append('idCard', idCard);
-    formData.append('bankbook', bankbook);
-    formData.append('contract', contractBlob);
+    formData.append('idCard', idCard, `${personal.name}_신분증.jpg`);
+    formData.append('bankbook', bankbook, `${personal.name}_통장사본.jpg`);
+    formData.append('contract', contractBlob, `${personal.name}_계약서.png`);
 
     await axios.post('/api/email', formData).then(() => setComplete(true));
   };
@@ -114,7 +110,7 @@ const ConfirmPage = () => {
     <>
       <h1 className="mb-2 mt-8 text-xl font-bold">계약 내용 확인</h1>
       <p className="text-sm text-foreground-muted">계약 조항 및 동의서를 꼼꼼히 읽은 후,</p>
-      <p className="mb-12 text-sm text-foreground-muted">아래 '서명하기' 버튼을 눌러 서명해 주세요.</p>
+      <p className="mb-12 text-sm text-foreground-muted">아래 서명하기 버튼을 눌러 서명해 주세요.</p>
 
       <InfoCard className="mb-3" title="수급인" items={CompanyInfoItems} foldable />
       <InfoCard className="mb-8" items={contractItems} title="계약 정보" foldable folding />
@@ -125,7 +121,7 @@ const ConfirmPage = () => {
         </DrawerWithButton>
 
         <DrawerWithButton triggerText="개인정보 이용 동의서" okText="동의합니다">
-          <PersonalConsent />
+          <PersonalContent />
         </DrawerWithButton>
       </div>
 
@@ -136,7 +132,7 @@ const ConfirmPage = () => {
         triggerText="서명하기"
         trigger={
           <motion.div
-            className="fixed bottom-6 left-6 right-6 flex"
+            className="fixed bottom-6 left-6 right-6 mx-auto flex max-w-[700px]"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             transition={{ duration: 0.2 }}

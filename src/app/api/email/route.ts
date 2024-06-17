@@ -18,15 +18,15 @@ export async function POST(request: Request) {
 
     const attachments: Attachment[] = [
       {
-        filename: '신분증.jpg',
+        filename: idCard.name,
         content: Buffer.from(idCardBuffer),
       },
       {
-        filename: '통장사본.jpg',
+        filename: bankbook.name,
         content: Buffer.from(bankbookBuffer),
       },
       {
-        filename: '계약서.jpg',
+        filename: contract.name,
         content: Buffer.from(contractBuffer),
       },
     ];

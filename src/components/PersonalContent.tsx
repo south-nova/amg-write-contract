@@ -1,6 +1,4 @@
-import React from 'react';
-
-const PersonalConsent = () => {
+const PersonalContent = () => {
   return (
     <div className="overflow-y-auto p-4">
       <p className="mb-10">
@@ -44,4 +42,4 @@ const PersonalConsent = () => {
   );
 };
 
-export default PersonalConsent;
+export default PersonalContent;

@@ -89,5 +89,5 @@ const InfoCardSkeleton = () => {
     </ul>
   );
 };
-
+InfoCard.displayName = 'InfoCard';
 export default InfoCard;

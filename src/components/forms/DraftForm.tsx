@@ -67,13 +67,17 @@ const CreateDraftForm = ({ onSubmit }: CreateDraftFormProps) => {
           control={control}
           name="pay"
           rules={{ required: '용역 수수료를 입력해주세요.' }}
-          render={({ field }) => <InputField onlyNum comma label="용역 수수료" {...field} />}
+          render={({ field }) => (
+            <InputField onlyNum comma inputMode="numeric" label="용역 수수료" {...field} />
+          )}
         />
         <Controller
           control={control}
           name="payDate"
           rules={{ required: '급여 지급일을 입력해주세요.' }}
-          render={({ field }) => <InputField onlyNum className="max-w-36" label="급여 지급일" {...field} />}
+          render={({ field }) => (
+            <InputField onlyNum className="max-w-36" inputMode="numeric" label="급여 지급일" {...field} />
+          )}
         />
       </div>
 
@@ -95,7 +99,7 @@ const CreateDraftForm = ({ onSubmit }: CreateDraftFormProps) => {
       />
 
       <div className="flex justify-end">
-        <Button className="mt-8 w-44" size="lg" type="submit" disabled={!isValid}>
+        <Button className="mt-8 w-44" size="lg" variant="primary" type="submit" disabled={!isValid}>
           생성하기
         </Button>
       </div>

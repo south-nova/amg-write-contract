@@ -21,14 +21,14 @@ const personalFormFields = [
     index: 0,
     name: 'name',
     title: '이름을 입력해주세요',
-    rules: { required: true },
+    rules: { required: true, minLength: 2 },
     component: <InputField label="이름" />,
   },
   {
     index: 1,
     name: 'phone',
     title: '휴대폰번호를 입력해주세요',
-    rules: { required: true },
+    rules: { required: true, minLength: 10 },
     component: (
       <InputField
         onlyNum
@@ -50,14 +50,14 @@ const personalFormFields = [
     index: 3,
     name: 'bank',
     title: '은행을 선택해주세요',
-    rules: { required: true },
+    rules: { required: true, minLength: 2 },
     component: <InputField label="은행명" />,
   },
   {
     index: 4,
     name: 'bankAccount',
     title: '계좌번호를 입력해주세요',
-    rules: { required: true },
+    rules: { required: true, minLength: 10 },
     component: <InputField label="계좌번호" onlyNum inputMode="numeric" />,
   },
 ];
@@ -136,7 +136,7 @@ const PersonalPage = () => {
         {isValid && (
           <motion.div
             className={cn(
-              'fixed bottom-6 left-6 right-6 flex',
+              'fixed bottom-6 left-6 right-6 mx-auto flex max-w-[700px]',
               isKeyboardVisible && `bottom-0 left-0 right-0 rounded-none`,
             )}
             initial={{ opacity: 0, height: 0 }}

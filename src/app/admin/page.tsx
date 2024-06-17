@@ -1,15 +1,30 @@
 'use client';
 
+import { useRef } from 'react';
+
 import axios from 'axios';
 
 import ContractForm, { DraftFormData } from '@/components/forms/DraftForm';
 import { useToast } from '@/components/ui/Toast/use-toast';
+import Content from '@/layouts/Content';
 
 const AdminPage = () => {
   const { toast } = useToast();
+  const copyInputRef = useRef<HTMLInputElement>(null);
 
   const copyToClipboard = async (text: string) => {
-    await navigator.clipboard.writeText(text);
+    try {
+      await navigator.clipboard.writeText(text);
+    } catch (error) {
+      const input = copyInputRef.current;
+      if (input) {
+        input.value = text;
+        input.select();
+        document.execCommand('copy');
+      } else {
+        throw new Error('Clipboard API is not supported');
+      }
+    }
   };
 
   const handleSubmit = async (formData: DraftFormData) => {
@@ -44,7 +59,6 @@ const AdminPage = () => {
           });
         });
     } catch (error) {
-      console.log(error);
       toast({
         title: '계약서 생성 실패',
         description: '서버와의 연결이 원활하지 않습니다.',
@@ -54,10 +68,11 @@ const AdminPage = () => {
   };
 
   return (
-    <div>
+    <Content>
       <h1 className="mb-12 mt-8 text-xl font-bold">계약서 생성</h1>
       <ContractForm onSubmit={handleSubmit} />
-    </div>
+      <input ref={copyInputRef} className="absolute -left-[20rem]" />
+    </Content>
   );
 };
 

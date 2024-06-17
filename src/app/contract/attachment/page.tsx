@@ -63,7 +63,7 @@ const AttachmentPage = () => {
 
       {isValid && (
         <motion.div
-          className="fixed bottom-6 left-6 right-6 flex"
+          className="fixed bottom-6 left-6 right-6 mx-auto flex max-w-[700px]"
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: 'auto' }}
           transition={{ duration: 0.2 }}

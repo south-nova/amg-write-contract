@@ -1,6 +1,7 @@
 import { forwardRef } from 'react';
 
 import { format } from 'date-fns';
+import Image from 'next/image';
 
 import { COMPANY_INFO } from '@/constant/company';
 import { PAY_CYCLE_TEXT } from '@/constant/payCycle';
@@ -25,10 +26,7 @@ const ContractDocument = forwardRef<HTMLDivElement, ContractDocumentProps>(
     return (
       <div
         ref={ref}
-        className={cn(
-          'flex h-[29.7cm] w-[21cm] flex-col gap-2 overflow-hidden px-2 py-3 font-[NanumMyeongjo] text-sm',
-          className,
-        )}
+        className={cn('flex h-[29.7cm] w-[21cm] flex-col gap-2 overflow-hidden px-2 py-3 text-sm', className)}
       >
         <h2 className="text-center text-xl font-bold">
           용역 계약서 <span className="text-lg font-normal">({companyName})</span>
@@ -215,12 +213,12 @@ const ContractDocument = forwardRef<HTMLDivElement, ContractDocumentProps>(
                 </span>
                 <span className="flex flex-1 justify-between px-2 py-1">
                   {ceo}
-                  <span className="relative text-foreground-muted">
-                    (대표자 날인)
-                    <img
+                  <span className="relative mr-1 text-foreground-muted">
+                    (인)
+                    <Image
                       className="absolute left-1/2 top-1/2 size-10 -translate-x-1/2 -translate-y-1/2"
                       alt="stamp"
-                      src="http://amgcom.site/static/stamp.png"
+                      src={`${process.env.NEXT_PUBLIC_DOMAIN_URL}/static/stamp.png`}
                     />
                   </span>
                 </span>
@@ -251,9 +249,9 @@ const ContractDocument = forwardRef<HTMLDivElement, ContractDocumentProps>(
                 </span>
                 <span className="flex flex-1 justify-between px-2 py-1">
                   {name}
-                  <span className="relative text-foreground-muted">
-                    (서명 또는 날인)
-                    <img
+                  <span className="relative mr-1 text-foreground-muted">
+                    (인)
+                    <Image
                       className="absolute left-1/2 top-1/2 size-10 -translate-x-1/2 -translate-y-1/2"
                       alt="stamp"
                       src={signature}
@@ -268,5 +266,5 @@ const ContractDocument = forwardRef<HTMLDivElement, ContractDocumentProps>(
     );
   },
 );
-
+ContractDocument.displayName = 'ContractDocument';
 export default ContractDocument;

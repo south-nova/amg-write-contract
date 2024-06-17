@@ -1,6 +1,6 @@
 'use client';
 
-import { ChangeEvent, InputHTMLAttributes, forwardRef, useCallback, useEffect, useState } from 'react';
+import { ChangeEvent, InputHTMLAttributes, forwardRef, useCallback } from 'react';
 
 import { type VariantProps, cva } from 'class-variance-authority';
 
@@ -48,7 +48,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         }
         return formattedValue;
       },
-      [comma],
+      [comma, onlyNum],
     );
 
     const handleChange = useCallback(
@@ -70,15 +70,18 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 
         if (onComplete && maxLength && rawValue.length >= maxLength) onComplete();
       },
-      [onChange, onComplete, onlyNum],
+      [onChange, onComplete, onlyNum, comma, maxLength],
     );
 
-    const handleEnter = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        onEnter?.();
-      }
-    }, []);
+    const handleEnter = useCallback(
+      (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          onEnter?.();
+        }
+      },
+      [onEnter],
+    );
 
     return (
       <input

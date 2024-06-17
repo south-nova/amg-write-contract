@@ -21,12 +21,12 @@ export default function Home() {
   const handleChangeFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
 
-    let reader = new FileReader();
+    const reader = new FileReader();
     reader.readAsDataURL(e.target.files[0]);
     reader.onloadend = () => {
       const base64 = reader.result;
       if (base64) {
-        let base64Sub = base64.toString();
+        const base64Sub = base64.toString();
         setFile(base64Sub);
       }
     };
