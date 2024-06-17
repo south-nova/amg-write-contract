@@ -4,6 +4,7 @@ import { forwardRef } from 'react';
 
 import { format } from 'date-fns';
 import Image from 'next/image';
+import stampImage from 'public/stamp.png';
 
 import { COMPANY_INFO } from '@/constant/company';
 import { PAY_CYCLE_TEXT } from '@/constant/payCycle';
@@ -222,7 +223,7 @@ const ContractDocument = forwardRef<HTMLDivElement, ContractDocumentProps>(
                       height={30}
                       className="absolute left-1/2 top-1/2 size-10 -translate-x-1/2 -translate-y-1/2"
                       alt="stamp"
-                      src={`${process.env.NEXT_PUBLIC_DOMAIN_URL}/static/stamp.png`}
+                      src={stampImage}
                     />
                   </span>
                 </span>
