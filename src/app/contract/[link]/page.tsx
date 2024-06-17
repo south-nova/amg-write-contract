@@ -10,6 +10,7 @@ import { useRecoilState } from 'recoil';
 
 import InfoCard from '@/components/InfoCard';
 import { Button } from '@/components/ui/Button';
+import { toast } from '@/components/ui/Toast/use-toast';
 import { PAY_CYCLE_TEXT } from '@/constant/payCycle';
 import { contractState } from '@/stores/contract';
 import { ContractData } from '@/types/contract';
@@ -42,8 +43,13 @@ const ContractPage = ({ params }: ContractPageProps) => {
           setContract(data);
           setLoading(false);
         })
-        .catch((error) => {
-          console.error(error);
+        .catch(() => {
+          router.push('/');
+          toast({
+            title: '존재하지 않는 계약서입니다.',
+            description: '관리자에게 문의해주세요 😢',
+            variant: 'error',
+          });
         });
     };
 

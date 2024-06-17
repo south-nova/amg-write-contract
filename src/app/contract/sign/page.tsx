@@ -15,16 +15,21 @@ import InfoCard from '@/components/InfoCard';
 import PersonalContent from '@/components/PersonalContent';
 import Signature from '@/components/Signature';
 import { Button } from '@/components/ui/Button';
+import { toast } from '@/components/ui/Toast/use-toast';
 import { COMPANY_INFO } from '@/constant/company';
 import { PAY_CYCLE_TEXT } from '@/constant/payCycle';
+import usePageLeave from '@/hooks/usePageLeave';
 import { compressImage } from '@/lib/compressImage';
-import { attachmentState } from '@/stores/attachment';
+import { isEqualData } from '@/lib/isEqualData';
+import { attachmentState, initAttachment } from '@/stores/attachment';
 import { completeState } from '@/stores/complete';
-import { contractState } from '@/stores/contract';
-import { personalState } from '@/stores/personal';
+import { contractState, initContract } from '@/stores/contract';
+import { initPersonal, personalState } from '@/stores/personal';
 import { signatureState } from '@/stores/signature';
+import { AttachmentData } from '@/types/attachment';
 import { ContractData } from '@/types/contract';
 import { PersonalData } from '@/types/personal';
+import { dataToHTML } from '@/utils/dataToHTML';
 
 const CompanyInfoItems = [
   { label: '대표자', value: COMPANY_INFO.ceo },
@@ -32,26 +37,8 @@ const CompanyInfoItems = [
   { label: '주　소', value: COMPANY_INFO.companyAddress },
 ];
 
-const dataToHTML = (personal: PersonalData, contract: ContractData) => {
-  return `
-        <h3>근무자 정보</h3>
-        <p>이름: <strong>${personal.name}</strong></p>
-        <p>연락처: <strong>${personal.phone}</strong></p>
-        <p>주소: <strong>${personal.address}</strong></p>
-        <p>은행명: <strong>${personal.bank}</strong></p>
-        <p>계좌번호: <strong>${personal.bankAccount}</strong></p>
-        <br />
-        <h3>계약 정보</h3>
-        <p>소속 업체: <strong>${contract.companyName}</strong></p>
-        <p>급여: <strong>${contract.pay.toLocaleString()}원</strong></p>
-        <p>급여 주기: <strong>${PAY_CYCLE_TEXT[contract.payCycle]}급</strong></p>
-        <p>급여일: <strong>${contract.payDate}일</strong></p>      
-        <p>계약 기간: <strong>${contract.startDate}</strong> ~ <strong>${contract.endDate}</strong></p>      
-      `;
-};
-
-const ConfirmPage = () => {
-  const docRef = useRef<HTMLDivElement>(null);
+const SignPage = () => {
+  usePageLeave();
 
   const router = useRouter();
 
@@ -61,6 +48,7 @@ const ConfirmPage = () => {
   const setSignature = useSetRecoilState(signatureState);
   const setComplete = useSetRecoilState(completeState);
 
+  const docRef = useRef<HTMLDivElement>(null);
   const [sign, setSign] = useState<string>('');
 
   const contractItems = [
@@ -73,6 +61,14 @@ const ConfirmPage = () => {
     { label: '계약 시작일', value: contract.startDate },
     { label: '계약 종료일', value: contract.endDate },
   ];
+
+  const isDataValid = () => {
+    return (
+      isEqualData<ContractData>(contract, initContract) ||
+      isEqualData<PersonalData>(personal, initPersonal) ||
+      isEqualData<AttachmentData>(attachment, initAttachment)
+    );
+  };
 
   const postData = async () => {
     if (!docRef.current || attachment.idCard === null || attachment.bankbook === null) return;
@@ -100,6 +96,14 @@ const ConfirmPage = () => {
 
   const handleSubmit = () => {
     if (sign) {
+      if (isDataValid()) {
+        toast({
+          title: '계약 정보가 초기화되었습니다.',
+          description: '처음부터 다시 작성해주세요 😢',
+          variant: 'error',
+        });
+        return;
+      }
       setSignature(sign);
       postData();
       router.push('/contract/complete');
@@ -157,4 +161,4 @@ const ConfirmPage = () => {
   );
 };
 
-export default ConfirmPage;
+export default SignPage;

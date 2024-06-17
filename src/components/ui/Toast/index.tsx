@@ -52,7 +52,7 @@ const variantIcon = {
 const Toast = forwardRef<
   ElementRef<typeof ToastPrimitives.Root>,
   ComponentPropsWithoutRef<typeof ToastPrimitives.Root> & VariantProps<typeof toastVariants>
->(({ className, variant = 'default', duration = 2000, children, ...props }, ref) => {
+>(({ className, variant = 'default', duration = 3000, children, ...props }, ref) => {
   return (
     <ToastPrimitives.Root
       ref={ref}

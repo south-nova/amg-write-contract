@@ -8,10 +8,13 @@ import { useRecoilState } from 'recoil';
 
 import UploadBox from '@/components/UploadBox';
 import { Button } from '@/components/ui/Button';
+import usePageLeave from '@/hooks/usePageLeave';
 import { attachmentState } from '@/stores/attachment';
 import { AttachmentData } from '@/types/attachment';
 
 const AttachmentPage = () => {
+  usePageLeave();
+
   const router = useRouter();
 
   const [attachment, setAttachment] = useRecoilState(attachmentState);
@@ -23,7 +26,7 @@ const AttachmentPage = () => {
 
   const handleNextButtonClick = (data: AttachmentData) => {
     setAttachment(data);
-    router.push('/contract/confirm');
+    router.push('/contract/sign');
   };
 
   return (

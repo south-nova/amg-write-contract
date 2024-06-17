@@ -12,6 +12,7 @@ import AddressField from '@/components/AddressField';
 import InputField from '@/components/InputField';
 import { Button } from '@/components/ui/Button';
 import { useKeyboardState } from '@/hooks/useKeyboardState';
+import usePageLeave from '@/hooks/usePageLeave';
 import { cn } from '@/lib/cn';
 import { personalState } from '@/stores/personal';
 import { PersonalData } from '@/types/personal';
@@ -63,6 +64,8 @@ const personalFormFields = [
 ];
 
 const PersonalPage = () => {
+  usePageLeave();
+
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const router = useRouter();
 

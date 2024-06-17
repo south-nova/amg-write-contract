@@ -1,3 +1,5 @@
+'use client';
+
 import { forwardRef } from 'react';
 
 import { format } from 'date-fns';
@@ -216,6 +218,8 @@ const ContractDocument = forwardRef<HTMLDivElement, ContractDocumentProps>(
                   <span className="relative mr-1 text-foreground-muted">
                     (인)
                     <Image
+                      width={30}
+                      height={30}
                       className="absolute left-1/2 top-1/2 size-10 -translate-x-1/2 -translate-y-1/2"
                       alt="stamp"
                       src={`${process.env.NEXT_PUBLIC_DOMAIN_URL}/static/stamp.png`}
@@ -252,6 +256,8 @@ const ContractDocument = forwardRef<HTMLDivElement, ContractDocumentProps>(
                   <span className="relative mr-1 text-foreground-muted">
                     (인)
                     <Image
+                      width={30}
+                      height={30}
                       className="absolute left-1/2 top-1/2 size-10 -translate-x-1/2 -translate-y-1/2"
                       alt="stamp"
                       src={signature}
