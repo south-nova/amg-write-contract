@@ -7,14 +7,3 @@ datasource db {
   url = env("POSTGRES_PRISMA_URL")
   directUrl = env("POSTGRES_URL_NON_POOLING")
 }
-
-model Contract {
-  id          Int     @id @default(autoincrement())
-  link        String  @unique
-  companyName String
-  startDate   DateTime
-  endDate     DateTime
-  pay         Int
-  payDate     Int
-  payCycle    String
-}

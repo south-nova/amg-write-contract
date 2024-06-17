@@ -218,13 +218,9 @@ const ContractDocument = forwardRef<HTMLDivElement, ContractDocumentProps>(
                   {ceo}
                   <span className="relative mr-1 text-foreground-muted">
                     (인)
-                    <Image
-                      width={30}
-                      height={30}
-                      className="absolute left-1/2 top-1/2 size-10 -translate-x-1/2 -translate-y-1/2"
-                      alt="stamp"
-                      src={stampImage}
-                    />
+                    <div className="absolute left-1/2 top-1/2 size-10 -translate-x-1/2 -translate-y-1/2">
+                      <Image width={40} layout="fixed" alt="stamp" src={stampImage} />
+                    </div>
                   </span>
                 </span>
               </li>
@@ -256,13 +252,9 @@ const ContractDocument = forwardRef<HTMLDivElement, ContractDocumentProps>(
                   {name}
                   <span className="relative mr-1 text-foreground-muted">
                     (인)
-                    <Image
-                      width={30}
-                      height={30}
-                      className="absolute left-1/2 top-1/2 size-10 -translate-x-1/2 -translate-y-1/2"
-                      alt="stamp"
-                      src={signature}
-                    />
+                    <div className="absolute left-1/2 top-1/2 size-10 -translate-x-1/2 -translate-y-1/2">
+                      <Image width={40} layout="fixed" alt="sign" src={signature} />
+                    </div>
                   </span>
                 </span>
               </li>
