@@ -108,7 +108,7 @@ const AdminPage = () => {
   return (
     <Content>
       <h1 className="mb-12 mt-8 text-xl font-bold">계약서 생성</h1>
-      <form className="flex flex-col gap-10" onSubmit={handleSubmit(handleSubmitForm)}>
+      <form className="relative flex flex-col gap-10" onSubmit={handleSubmit(handleSubmitForm)}>
         <Controller
           control={control}
           name="companyName"

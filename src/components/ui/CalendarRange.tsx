@@ -1,3 +1,5 @@
+'use client';
+
 import { useEffect, useState } from 'react';
 
 import {
@@ -47,7 +49,7 @@ const CalendarRange = ({ className, value, onChange }: CalendarRangeProps) => {
       setStartDate(date);
       setEndDate(null);
       onChange?.(null);
-    } else if ((startDate && !endDate) || date > startDate) {
+    } else if (startDate && !endDate && date > startDate) {
       setEndDate(date);
       onChange?.({ startDate, endDate: date });
     }
@@ -73,6 +75,7 @@ const CalendarRange = ({ className, value, onChange }: CalendarRangeProps) => {
             const isInRange =
               startDate && endDate && isWithinInterval(day, { start: startDate, end: endDate });
             const isPastDate = isBefore(day, new Date()) && !isToday;
+            const isDisabled = startDate && !endDate && isBefore(day, startDate);
 
             return (
               <div
@@ -87,13 +90,15 @@ const CalendarRange = ({ className, value, onChange }: CalendarRangeProps) => {
                     'bg-secondary font-semibold text-secondary-foreground',
                   isToday && 'font-bold',
                   isPastDate && 'cursor-default text-foreground-muted',
+                  isDisabled && 'cursor-default text-foreground-muted',
                   !isInRange &&
                     !isSelectedStart &&
                     !isSelectedEnd &&
                     !isPastDate &&
+                    !isDisabled &&
                     'hover:bg-surface hover:text-secondary',
                 )}
-                onClick={() => handleDateClick(day)}
+                onClick={() => !isDisabled && handleDateClick(day)}
               >
                 {format(day, 'd')}
               </div>

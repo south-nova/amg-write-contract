@@ -76,7 +76,7 @@ const ContractPage = ({ params }: ContractPageProps) => {
 
       <InfoCard items={contractItems} loading={loading} />
 
-      <FixedBottom>
+      <FixedBottom isVisible={!loading}>
         <Button variant="primary" className="flex-1" type="button" size="lg" onClick={handleNextClick}>
           계약 내용이 맞습니다
         </Button>
