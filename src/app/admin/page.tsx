@@ -135,22 +135,23 @@ const AdminPage = () => {
           />
         </div>
 
-        <label>
-          <p className="mb-3 ml-1 text-sm text-foreground-muted">계약 기간</p>
+        <div className="flex flex-col gap-4">
+          <label>
+            <p className="mb-3 ml-1 text-sm text-foreground-muted">계약 기간</p>
+            <Controller
+              control={control}
+              name="period"
+              render={({ field }) => (
+                <DatePickerWithRange onPick={(dateRange) => field.onChange(dateRange)} {...field} />
+              )}
+            />
+          </label>
           <Controller
             control={control}
-            name="period"
-            render={({ field }) => (
-              <DatePickerWithRange onPick={(dateRange) => field.onChange(dateRange)} {...field} />
-            )}
+            name="payCycle"
+            render={({ field }) => <RadioGroup options={payCycleOptions} {...field} />}
           />
-        </label>
-
-        <Controller
-          control={control}
-          name="payCycle"
-          render={({ field }) => <RadioGroup options={payCycleOptions} {...field} />}
-        />
+        </div>
 
         <FixedBottom isVisible={isValid && !link}>
           <Button
