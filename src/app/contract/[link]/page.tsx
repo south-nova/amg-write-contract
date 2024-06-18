@@ -23,6 +23,7 @@ const ContractPage = ({ params }: ContractPageProps) => {
   const { link } = params;
   const [contract, setContract] = useRecoilState<ContractData>(contractState);
   const [loading, setLoading] = useState(true);
+  const [navLoading, setNavLoading] = useState(false);
 
   const router = useRouter();
 
@@ -67,7 +68,10 @@ const ContractPage = ({ params }: ContractPageProps) => {
     { label: '계약 종료일', value: contract.endDate },
   ];
 
-  const handleNextClick = () => router.push('/contract/personal');
+  const handleNextClick = () => {
+    setNavLoading(true);
+    router.push('/contract/personal');
+  };
 
   return (
     <>
@@ -77,7 +81,14 @@ const ContractPage = ({ params }: ContractPageProps) => {
       <InfoCard items={contractItems} loading={loading} />
 
       <FixedBottom isVisible={!loading}>
-        <Button variant="primary" className="flex-1" type="button" size="lg" onClick={handleNextClick}>
+        <Button
+          loading={navLoading}
+          variant="primary"
+          className="flex-1"
+          type="button"
+          size="lg"
+          onClick={handleNextClick}
+        >
           계약 내용이 맞습니다
         </Button>
       </FixedBottom>

@@ -71,6 +71,7 @@ const PersonalPage = () => {
   const [step, setStep] = useState(0);
   const [title, setTitle] = useState<string>(personalFormFields[step].title);
   const [personal, setPersonal] = useRecoilState(personalState);
+  const [navLoading, setNavLoading] = useState(false);
   const isLastStep = step === personalFormFields.length - 1;
 
   const {
@@ -85,6 +86,7 @@ const PersonalPage = () => {
 
   const handleFinish = (data: PersonalData) => {
     setPersonal(data);
+    setNavLoading(true);
     router.push('/contract/attachment');
   };
 
@@ -135,6 +137,7 @@ const PersonalPage = () => {
 
         <FixedBottom isVisible={isValid}>
           <Button
+            loading={navLoading}
             className="flex-1"
             type="button"
             variant="primary"

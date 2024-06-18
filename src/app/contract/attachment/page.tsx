@@ -1,5 +1,7 @@
 'use client';
 
+import { useState } from 'react';
+
 import { Controller, useForm } from 'react-hook-form';
 
 import { useRouter } from 'next/navigation';
@@ -18,6 +20,8 @@ const AttachmentPage = () => {
   const router = useRouter();
 
   const [attachment, setAttachment] = useRecoilState(attachmentState);
+  const [navLoading, setNavLoading] = useState(false);
+
   const {
     control,
     handleSubmit,
@@ -26,6 +30,7 @@ const AttachmentPage = () => {
 
   const handleNextButtonClick = (data: AttachmentData) => {
     setAttachment(data);
+    setNavLoading(true);
     router.push('/contract/sign');
   };
 
@@ -66,6 +71,7 @@ const AttachmentPage = () => {
 
       <FixedBottom isVisible={isValid}>
         <Button
+          loading={navLoading}
           variant="primary"
           className="flex-1"
           type="button"

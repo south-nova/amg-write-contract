@@ -50,6 +50,7 @@ const SignPage = () => {
 
   const docRef = useRef<HTMLDivElement>(null);
   const [sign, setSign] = useState<string>('');
+  const [navLoading, setNavLoading] = useState(false);
 
   const contractItems = [
     { label: '소속 업체', value: contract.companyName, accent: true },
@@ -106,6 +107,7 @@ const SignPage = () => {
       }
       setSignature(sign);
       postData();
+      setNavLoading(true);
       router.push('/contract/complete');
     }
   };
@@ -141,7 +143,7 @@ const SignPage = () => {
             animate={{ opacity: 1, height: 'auto' }}
             transition={{ duration: 0.2 }}
           >
-            <Button variant="primary" className="flex-1" type="button" size="lg">
+            <Button loading={navLoading} variant="primary" className="flex-1" type="button" size="lg">
               모두 동의하고 서명하기
             </Button>
           </motion.div>
