@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { Controller, useForm } from 'react-hook-form';
 
@@ -8,9 +8,11 @@ import axios from 'axios';
 import { endOfMonth } from 'date-fns';
 
 import DatePickerWithRange from '@/components/DatePickerWithRange';
+import FixedBottom from '@/components/FixedBottom';
 import InputField from '@/components/InputField';
 import { Button } from '@/components/ui/Button';
 import { type DateRange } from '@/components/ui/CalendarRange';
+import { Input } from '@/components/ui/Input';
 import RadioGroup from '@/components/ui/RadioGroup';
 import { useToast } from '@/components/ui/Toast/use-toast';
 import Content from '@/layouts/Content';
@@ -43,6 +45,11 @@ const payCycleOptions = [
 const AdminPage = () => {
   const { toast } = useToast();
   const companyNameRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const [link, setLink] = useState<string>('');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   const {
     handleSubmit,
     control,
@@ -51,42 +58,28 @@ const AdminPage = () => {
 
   useEffect(() => companyNameRef.current?.focus(), []);
 
-  const copyText = (text: string) => {
-    if (navigator.clipboard !== undefined) {
-      navigator.clipboard.writeText(text).then(() => {
-        toast({
-          title: '계약서 생성 완료',
-          description: '링크가 클립보드에 복사되었습니다.',
-          variant: 'success',
-        });
-      });
-    } else {
-      const textArea = document.createElement('textarea');
-      textArea.value = text;
-      document.body.appendChild(textArea);
-      textArea.select();
-      textArea.setSelectionRange(0, 99999);
-
-      try {
-        document.execCommand('copy');
-      } catch (err) {
-        toast({
-          title: '클립보드 복사 실패',
-          description: '클립보드 복사 과정에서 오류가 발생했습니다.',
-          variant: 'error',
-        });
-      }
-      textArea.setSelectionRange(0, 0);
-      document.body.removeChild(textArea);
+  const handleCopyClick = () => {
+    try {
+      const el = inputRef.current;
+      console.log(el);
+      el?.select();
+      document.execCommand('copy');
       toast({
         title: '계약서 생성 완료',
         description: '링크가 클립보드에 복사되었습니다.',
         variant: 'success',
       });
+    } catch (err) {
+      toast({
+        title: '클립보드 복사 실패',
+        description: '클립보드 복사 과정에서 오류가 발생했습니다.',
+        variant: 'error',
+      });
     }
   };
 
   const handleSubmitForm = async (formData: DraftFormData) => {
+    setIsLoading(true);
     try {
       const data = {
         companyName: formData.companyName,
@@ -101,8 +94,8 @@ const AdminPage = () => {
       const link = response.data.link;
       const domainUrl = process.env.NEXT_PUBLIC_DOMAIN_URL;
       const contractUrl = `${domainUrl}/contract/${link}`;
-
-      copyText(contractUrl);
+      setIsLoading(false);
+      setLink(contractUrl);
     } catch (error) {
       toast({
         title: '계약서 생성 실패',
@@ -159,12 +152,34 @@ const AdminPage = () => {
           render={({ field }) => <RadioGroup options={payCycleOptions} {...field} />}
         />
 
-        <div className="flex justify-end">
-          <Button className="mt-8 w-44" size="lg" variant="primary" type="submit" disabled={!isValid}>
-            생성하기
+        <FixedBottom isVisible={isValid && !link}>
+          <Button
+            variant="primary"
+            className="flex-1"
+            type="button"
+            size="lg"
+            onClick={handleSubmit(handleSubmitForm)}
+            loading={isLoading}
+          >
+            링크 생성하기
+          </Button>
+        </FixedBottom>
+      </form>
+
+      <FixedBottom isVisible={!!link}>
+        <div className="flex flex-1">
+          <Input
+            ref={inputRef}
+            className="flex-1 rounded-none rounded-l-lg px-4 text-sm"
+            value={link}
+            variant="filled"
+            readOnly
+          />
+          <Button variant="primary" className="rounded-none rounded-r-lg" onClick={handleCopyClick}>
+            복사하기
           </Button>
         </div>
-      </form>
+      </FixedBottom>
     </Content>
   );
 };

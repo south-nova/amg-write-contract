@@ -9,11 +9,10 @@ import { useRouter } from 'next/navigation';
 import { useRecoilState } from 'recoil';
 
 import AddressField from '@/components/AddressField';
+import FixedBottom from '@/components/FixedBottom';
 import InputField from '@/components/InputField';
 import { Button } from '@/components/ui/Button';
-import { useKeyboardState } from '@/hooks/useKeyboardState';
 import usePageLeave from '@/hooks/usePageLeave';
-import { cn } from '@/lib/cn';
 import { personalState } from '@/stores/personal';
 import { PersonalData } from '@/types/personal';
 
@@ -80,8 +79,6 @@ const PersonalPage = () => {
     formState: { isValid },
   } = useForm<PersonalData>({ defaultValues: personal });
 
-  const { isKeyboardVisible } = useKeyboardState();
-
   useEffect(() => setTitle(personalFormFields[step].title), [step]);
 
   const handleAnimationComplete = () => inputRefs.current[step]?.focus();
@@ -136,27 +133,17 @@ const PersonalPage = () => {
             })}
         </AnimatePresence>
 
-        {isValid && (
-          <motion.div
-            className={cn(
-              'fixed bottom-6 left-6 right-6 mx-auto flex max-w-[700px]',
-              isKeyboardVisible && `bottom-0 left-0 right-0 rounded-none`,
-            )}
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            transition={{ duration: 0.2 }}
+        <FixedBottom isVisible={isValid}>
+          <Button
+            className="flex-1"
+            type="button"
+            variant="primary"
+            size="lg"
+            onClick={handleNextButtonClick}
           >
-            <Button
-              className={cn('flex-1', isKeyboardVisible && 'rounded-none')}
-              type="button"
-              variant="primary"
-              size="lg"
-              onClick={handleNextButtonClick}
-            >
-              다음
-            </Button>
-          </motion.div>
-        )}
+            다음
+          </Button>
+        </FixedBottom>
       </form>
     </>
   );

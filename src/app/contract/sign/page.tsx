@@ -3,7 +3,6 @@
 import { useRef, useState } from 'react';
 
 import axios from 'axios';
-import { motion } from 'framer-motion';
 import html2canvas from 'html2canvas';
 import { useRouter } from 'next/navigation';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
@@ -11,6 +10,7 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import ContractArticle from '@/components/ContractArticle';
 import ContractDocument from '@/components/ContractDocument';
 import DrawerWithButton from '@/components/DrawerWithButton';
+import FixedBottom from '@/components/FixedBottom';
 import InfoCard from '@/components/InfoCard';
 import PersonalContent from '@/components/PersonalContent';
 import Signature from '@/components/Signature';
@@ -135,16 +135,11 @@ const SignPage = () => {
         onOk={handleSubmit}
         triggerText="서명하기"
         trigger={
-          <motion.div
-            className="fixed bottom-6 left-6 right-6 mx-auto flex max-w-[700px]"
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            transition={{ duration: 0.2 }}
-          >
+          <FixedBottom>
             <Button variant="primary" className="flex-1" type="button" size="lg">
               모두 동의하고 서명하기
             </Button>
-          </motion.div>
+          </FixedBottom>
         }
       >
         <Signature onChange={setSign} />
