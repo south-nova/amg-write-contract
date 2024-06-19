@@ -19,7 +19,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <HeadMeta />
-      <body id="root" className={cn('mx-auto flex h-screen max-w-[700px] flex-col', inter.className)}>
+      <body
+        id="root"
+        className={cn('mx-auto h-screen w-screen max-w-[700px] overflow-hidden', inter.className)}
+      >
         <RecoilWrapper>{children}</RecoilWrapper>
         <Toaster />
       </body>
