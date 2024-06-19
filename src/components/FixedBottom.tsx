@@ -4,8 +4,7 @@ import { ReactElement, cloneElement, isValidElement } from 'react';
 
 import { AnimatePresence, motion } from 'framer-motion';
 
-import { useFixedBottomIOS } from '@/hooks/useFixedBottomIOS';
-import { useKeyboardActive } from '@/hooks/useKeyboardActive';
+import { useFixedBottom } from '@/hooks/useFixedBottom';
 import { cn } from '@/lib/cn';
 import isComponentOfType from '@/utils/isComponentOfType';
 
@@ -15,9 +14,7 @@ interface FixedBottomProps {
 }
 
 const FixedBottom = ({ children, isVisible = true }: FixedBottomProps) => {
-  const { fixedElementRef } = useFixedBottomIOS();
-  const { isKeyboardVisible } = useKeyboardActive();
-
+  const { fixedElementRef, isKeyboardVisible } = useFixedBottom();
   const isStick = isKeyboardVisible && isComponentOfType(children, ['Button']);
 
   return (
@@ -31,7 +28,7 @@ const FixedBottom = ({ children, isVisible = true }: FixedBottomProps) => {
       >
         {isVisible && (
           <motion.div
-            className="flex w-full"
+            className="flex flex-1 overflow-hidden"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}

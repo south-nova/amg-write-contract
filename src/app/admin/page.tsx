@@ -173,7 +173,7 @@ const AdminPage = () => {
         <div className="flex flex-1">
           <Input
             ref={inputRef}
-            className="flex-1 rounded-none rounded-l-lg px-4 text-sm"
+            className="w-full rounded-none rounded-l-lg px-4 text-sm"
             value={link}
             variant="filled"
             readOnly
