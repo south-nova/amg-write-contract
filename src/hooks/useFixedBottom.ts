@@ -7,12 +7,46 @@ export const useFixedBottom = (extraBottomOffset: number = 0) => {
   const fixedElementRef = useRef(null);
 
   useEffect(() => {
+    const preViewportHeight = Number(window.visualViewport?.height);
+
     const isIOS = /iPhone|iPad|iPod/.test(window.navigator.userAgent);
+    const isAndroid = /Android/.test(window.navigator.userAgent);
+    const isKakao = /KAKAO/.test(window.navigator.userAgent);
+
+    const handleResize = () => {
+      const isKeyboardActive = getIsKeyboardVisible();
+      setIsKeyboardVisible(isKeyboardActive);
+
+      if (isIOS) moveFixedElementIOS(isKeyboardActive);
+      if (isAndroid) moveFixedElementAndroid(isKeyboardActive);
+    };
+
+    // Viewport 스크롤 제한
+    const handleScroll = (event: Event) => {
+      event.preventDefault();
+      event.stopPropagation();
+
+      window.scrollTo(0, 0);
+    };
+
+    const moveFixedElementAndroid = (active: boolean) => {
+      if (!fixedElementRef.current) return;
+
+      const elementStyles = (fixedElementRef.current as HTMLElement).style;
+
+      if (active) {
+        elementStyles.bottom = '0';
+        window.visualViewport?.addEventListener('scroll', handleScroll);
+      } else {
+        elementStyles.bottom = '';
+        window.visualViewport?.removeEventListener('scroll', handleScroll);
+      }
+    };
 
     const moveFixedElementIOS = (active: boolean) => {
       if (!fixedElementRef.current) return;
 
-      const screenHeight = document.documentElement.clientHeight;
+      const screenHeight = window.innerHeight;
       const viewportHeight = Number(window.visualViewport?.height);
       const viewportOffsetTop = Number(window.visualViewport?.offsetTop);
 
@@ -27,22 +61,18 @@ export const useFixedBottom = (extraBottomOffset: number = 0) => {
       }
     };
 
-    const handleResize = () => {
-      const screenHeight = document.documentElement.clientHeight;
+    const getIsKeyboardVisible = () => {
+      const screenHeight = window.innerHeight;
       const viewportHeight = Number(window.visualViewport?.height);
-      const isKeyboardActive = Math.round(viewportHeight) < screenHeight;
 
-      setIsKeyboardVisible(isKeyboardActive);
+      let isKeyboardActive;
+      if (isAndroid && isKakao) {
+        isKeyboardActive = Math.round(preViewportHeight) > Math.round(viewportHeight);
+      } else {
+        isKeyboardActive = Math.round(viewportHeight) < screenHeight;
+      }
 
-      if (isIOS) moveFixedElementIOS(isKeyboardActive);
-    };
-
-    // Viewport 스크롤 제한
-    const handleScroll = (event: Event) => {
-      event.preventDefault();
-      event.stopPropagation();
-
-      window.scrollTo(0, 0);
+      return isKeyboardActive;
     };
 
     window.visualViewport?.addEventListener('resize', handleResize);
@@ -52,7 +82,7 @@ export const useFixedBottom = (extraBottomOffset: number = 0) => {
       window.visualViewport?.removeEventListener('scroll', handleScroll);
       window.visualViewport?.removeEventListener('resize', handleResize);
     };
-  }, [fixedElementRef]);
+  }, [fixedElementRef, extraBottomOffset]);
 
   return { fixedElementRef, isKeyboardVisible };
 };
