@@ -16,7 +16,6 @@ const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
           ref={inputRef}
           id={name}
           variant="underline"
-          onSubmit={() => alert('submit')}
           className="peer w-full pt-1 placeholder-transparent transition-colors focus:placeholder-foreground-muted motion-reduce:transition-none"
           {...props}
         />
