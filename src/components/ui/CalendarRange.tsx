@@ -28,7 +28,7 @@ interface CalendarRangeProps {
   onChange?: (date: DateRange | null) => void;
 }
 
-const months = Array.from({ length: 12 }, (_, i) => addMonths(new Date(), i));
+const months = Array.from({ length: 13 }, (_, i) => addMonths(subMonths(new Date(), 1), i));
 
 const CalendarRange = ({ className, value, onChange }: CalendarRangeProps) => {
   const [startDate, setStartDate] = useState<Date | null>(null);
@@ -75,7 +75,7 @@ const CalendarRange = ({ className, value, onChange }: CalendarRangeProps) => {
             const isInRange =
               startDate && endDate && isWithinInterval(day, { start: startDate, end: endDate });
             const isPastDate = isBefore(day, new Date()) && !isToday;
-            const isDisabled = startDate && !endDate;
+            const isDisabled = startDate && !endDate && isBefore(day, startDate);
 
             return (
               <div
