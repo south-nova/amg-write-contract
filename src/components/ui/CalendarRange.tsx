@@ -75,7 +75,7 @@ const CalendarRange = ({ className, value, onChange }: CalendarRangeProps) => {
             const isInRange =
               startDate && endDate && isWithinInterval(day, { start: startDate, end: endDate });
             const isPastDate = isBefore(day, new Date()) && !isToday;
-            const isDisabled = startDate && !endDate
+            const isDisabled = startDate && !endDate;
 
             return (
               <div
