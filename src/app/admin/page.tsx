@@ -7,11 +7,10 @@ import { Controller, useForm } from 'react-hook-form';
 import axios from 'axios';
 import { endOfMonth } from 'date-fns';
 
-import DatePickerWithRange from '@/components/DatePickerWithRange';
+import DatePicker from '@/components/DatePicker';
 import FixedBottom from '@/components/FixedBottom';
 import InputField from '@/components/InputField';
 import { Button } from '@/components/ui/Button';
-import { type DateRange } from '@/components/ui/CalendarRange';
 import { Input } from '@/components/ui/Input';
 import RadioGroup from '@/components/ui/RadioGroup';
 import { useToast } from '@/components/ui/Toast/use-toast';
@@ -20,17 +19,16 @@ import Content from '@/layouts/Content';
 export interface DraftFormData {
   companyName: string;
   payCycle: string;
-  period: DateRange;
+  startDate: Date;
+  endDate: Date;
   pay: string;
   payDate: string;
 }
 
 const defaultValues: DraftFormData = {
   payCycle: 'daily',
-  period: {
-    startDate: new Date(),
-    endDate: endOfMonth(new Date()),
-  },
+  startDate: new Date(),
+  endDate: endOfMonth(new Date()),
   companyName: '',
   pay: '80000',
   payDate: '15',
@@ -79,21 +77,29 @@ const AdminPage = () => {
   };
 
   const handleSubmitForm = async (formData: DraftFormData) => {
+    if (formData.startDate > formData.endDate) {
+      toast({
+        title: '계약 기간 오류',
+        description: '계약 시작일이 종료일보다 늦을 수 없습니다.',
+        variant: 'error',
+      });
+      return;
+    }
+
     setIsLoading(true);
+
     try {
       const data = {
-        companyName: formData.companyName,
-        startDate: formData.period.startDate,
-        endDate: formData.period.endDate,
+        ...formData,
         pay: parseInt(formData.pay),
         payDate: parseInt(formData.payDate),
-        payCycle: formData.payCycle,
       };
 
       const response = await axios.post('/api/draft', data);
       const link = response.data.link;
       const domainUrl = process.env.NEXT_PUBLIC_DOMAIN_URL;
       const contractUrl = `${domainUrl}/contract/${link}`;
+
       setIsLoading(false);
       setLink(contractUrl);
     } catch (error) {
@@ -138,13 +144,32 @@ const AdminPage = () => {
         <div className="flex flex-col gap-4">
           <label>
             <p className="mb-3 ml-1 text-sm text-foreground-muted">계약 기간</p>
-            <Controller
-              control={control}
-              name="period"
-              render={({ field }) => (
-                <DatePickerWithRange onPick={(dateRange) => field.onChange(dateRange)} {...field} />
-              )}
-            />
+            <div className="flex w-full">
+              <Controller
+                control={control}
+                name="startDate"
+                rules={{ required: '계약 시작일을 선택해주세요.' }}
+                render={({ field }) => (
+                  <DatePicker
+                    onSelect={(date) => field.onChange(date)}
+                    className="rounded-r-none border-r-0 text-base font-normal"
+                    {...field}
+                  />
+                )}
+              />
+              <Controller
+                control={control}
+                name="endDate"
+                rules={{ required: '계약 종료일을 선택해주세요.' }}
+                render={({ field }) => (
+                  <DatePicker
+                    onSelect={(date) => field.onChange(date)}
+                    className="rounded-l-none text-base font-normal"
+                    {...field}
+                  />
+                )}
+              />
+            </div>
           </label>
           <Controller
             control={control}

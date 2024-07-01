@@ -7,11 +7,11 @@ import {
   eachDayOfInterval,
   endOfMonth,
   format,
-  isBefore,
   isSameDay,
   isSameMonth,
   isWithinInterval,
   startOfMonth,
+  subMonths,
 } from 'date-fns';
 import { ko } from 'date-fns/locale';
 
@@ -42,9 +42,6 @@ const CalendarRange = ({ className, value, onChange }: CalendarRangeProps) => {
   }, [value]);
 
   const handleDateClick = (date: Date) => {
-    const today = new Date();
-    if (isBefore(date, today.setHours(0, 0, 0, 0))) return;
-
     if (!startDate || (startDate && endDate)) {
       setStartDate(date);
       setEndDate(null);
@@ -74,8 +71,6 @@ const CalendarRange = ({ className, value, onChange }: CalendarRangeProps) => {
             const isSelectedEnd = endDate && isSameDay(day, endDate);
             const isInRange =
               startDate && endDate && isWithinInterval(day, { start: startDate, end: endDate });
-            const isPastDate = isBefore(day, new Date()) && !isToday;
-            const isDisabled = startDate && !endDate && isBefore(day, startDate);
 
             return (
               <div
@@ -89,16 +84,9 @@ const CalendarRange = ({ className, value, onChange }: CalendarRangeProps) => {
                   (isSelectedStart || isSelectedEnd) &&
                     'bg-secondary font-semibold text-secondary-foreground',
                   isToday && 'font-bold',
-                  isPastDate && 'cursor-default text-foreground-muted',
-                  isDisabled && 'cursor-default text-foreground-muted',
-                  !isInRange &&
-                    !isSelectedStart &&
-                    !isSelectedEnd &&
-                    !isPastDate &&
-                    !isDisabled &&
-                    'hover:bg-surface hover:text-secondary',
+                  !isInRange && !isSelectedStart && !isSelectedEnd && 'hover:bg-surface hover:text-secondary',
                 )}
-                onClick={() => !isDisabled && handleDateClick(day)}
+                onClick={() => handleDateClick(day)}
               >
                 {format(day, 'd')}
               </div>
