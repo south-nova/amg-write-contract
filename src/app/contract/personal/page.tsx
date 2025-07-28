@@ -78,6 +78,7 @@ const PersonalPage = () => {
     control,
     handleSubmit,
     formState: { isValid },
+    trigger,
   } = useForm<PersonalData>({ defaultValues: personal });
 
   useEffect(() => setTitle(personalFormFields[step].title), [step]);
@@ -90,11 +91,14 @@ const PersonalPage = () => {
     router.push('/contract/attachment');
   };
 
-  const handleNextButtonClick = () => {
+  const handleNextButtonClick = async () => {
     if (isLastStep) {
       handleSubmit(handleFinish)();
-    } else if (isValid) {
-      setStep((prevStep) => prevStep + 1);
+    } else {
+      const isFormValid = await trigger();
+      if (isFormValid) {
+        setStep((prevStep) => prevStep + 1);
+      }
     }
   };
 
