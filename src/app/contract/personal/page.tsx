@@ -91,8 +91,11 @@ const PersonalPage = () => {
   };
 
   const handleNextButtonClick = () => {
-    if (isLastStep) handleSubmit(handleFinish)();
-    else setStep((prevStep) => prevStep + 1);
+    if (isLastStep) {
+      handleSubmit(handleFinish)();
+    } else if (isValid) {
+      setStep((prevStep) => prevStep + 1);
+    }
   };
 
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => e.preventDefault();
